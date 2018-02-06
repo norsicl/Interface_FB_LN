@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.media.*?>
 <?import javafx.scene.image.*?>
 <?import javafx.scene.control.*?>
 <?import java.lang.*?>
@@ -13,39 +14,76 @@
 <Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <Button layoutX="227.0" layoutY="649.0" mnemonicParsing="false" text="Parcourir" />
-      <ComboBox layoutX="549.0" layoutY="52.0" prefWidth="150.0" promptText="Date" />
-      <ComboBox layoutX="704.0" layoutY="52.0" prefHeight="31.0" prefWidth="200.0" promptText="La dernière semaine" />
-      <Separator layoutX="953.0" orientation="VERTICAL" prefHeight="720.0" />
-      <Separator layoutX="8.0" layoutY="115.0" prefWidth="1200.0" />
-      <ScrollBar layoutX="914.0" layoutY="130.0" orientation="VERTICAL" prefHeight="472.0" prefWidth="18.0" />
-      <TextArea layoutX="959.0" layoutY="260.0" prefHeight="119.0" prefWidth="200.0" />
-      <TextField layoutX="959.0" layoutY="180.0" />
-      <Label layoutX="479.0" layoutY="57.0" text="Trier par" />
-      <MenuBar layoutX="37.0" layoutY="52.0">
-        <menus>
-          <Menu mnemonicParsing="false" text="Grille">
-            <items>
-              <MenuItem mnemonicParsing="false" text="Close" />
-            </items>
-          </Menu>
-          <Menu mnemonicParsing="false" text="Loupe">
-            <items>
-              <MenuItem mnemonicParsing="false" text="Delete" />
-            </items>
-          </Menu>
-          <Menu mnemonicParsing="false" text="Diaporama">
-            <items>
-              <MenuItem mnemonicParsing="false" text="About" />
-            </items>
-          </Menu>
-        </menus>
-      </MenuBar>
-      <Label layoutX="959.0" layoutY="150.0" text="Nom de l'image" />
-      <Label layoutX="959.0" layoutY="229.0" text="Mot clés" />
-      <Separator layoutX="938.0" layoutY="433.0" prefWidth="250.0" />
+      <Separator layoutX="2.0" layoutY="115.0" prefWidth="1200.0" />
       <Separator layoutY="619.0" prefWidth="1200.0" />
       <TextField layoutX="24.0" layoutY="649.0" />
-      <TextField layoutX="960.0" layoutY="571.0" prefHeight="31.0" prefWidth="206.0" text="Recherche" />
-      <ListView layoutX="963.0" layoutY="451.0" prefHeight="109.0" prefWidth="200.0" />
+      <TabPane prefHeight="619.0" prefWidth="1200.0" tabClosingPolicy="UNAVAILABLE">
+        <tabs>
+          <Tab text="Grille">
+               <content>
+                  <Pane prefHeight="580.0" prefWidth="1218.0">
+                     <children>
+                        <Label layoutX="471.0" layoutY="22.0" text="Trier par" />
+                        <Label layoutX="959.0" layoutY="106.0" text="Nom de l'image" />
+                        <Label layoutX="956.0" layoutY="189.0" text="Mot clés" />
+                        <TextField layoutX="962.0" layoutY="535.0" prefHeight="31.0" prefWidth="206.0" text="Recherche" />
+                        <TextArea layoutX="960.0" layoutY="224.0" prefHeight="119.0" prefWidth="200.0" />
+                        <TextField layoutX="960.0" layoutY="144.0" />
+                        <ComboBox layoutX="550.0" layoutY="17.0" prefWidth="150.0" promptText="Date" />
+                        <ComboBox layoutX="705.0" layoutY="17.0" prefHeight="31.0" prefWidth="200.0" promptText="La dernière semaine" />
+                        <ListView layoutX="965.0" layoutY="413.0" prefHeight="109.0" prefWidth="200.0" />
+                        <ScrollPane layoutX="14.0" layoutY="89.0" prefHeight="486.0" prefWidth="933.0" vbarPolicy="ALWAYS">
+                          <content>
+                            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="485.0" prefWidth="904.0">
+                                 <children>
+                                    <GridPane prefHeight="484.0" prefWidth="904.0">
+                                      <columnConstraints>
+                                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                      </columnConstraints>
+                                      <rowConstraints>
+                                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                      </rowConstraints>
+                                       <children>
+                                          <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" />
+                                          <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" />
+                                          <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" GridPane.rowIndex="1" />
+                                          <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                                          <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" GridPane.rowIndex="2" />
+                                          <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                                       </children>
+                                    </GridPane>
+                                 </children>
+                              </AnchorPane>
+                          </content>
+                        </ScrollPane>
+                     </children>
+                  </Pane>
+               </content>
+            </Tab>
+          <Tab text="Loupe">
+               <content>
+                  <Pane prefHeight="200.0" prefWidth="200.0">
+                     <children>
+                        <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="400.0" layoutY="197.0" pickOnBounds="true" preserveRatio="true" />
+                     </children>
+                  </Pane>
+               </content>
+            </Tab>
+            <Tab text="Diaporama">
+              <content>
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <MediaView fitHeight="200.0" fitWidth="200.0" layoutX="387.0" layoutY="178.0" />
+                     </children>
+                  </AnchorPane>
+              </content>
+            </Tab>
+        </tabs>
+      </TabPane>
+      <Separator layoutX="944.0" layoutY="408.0" prefWidth="250.0" />
+      <Separator layoutX="951.0" layoutY="49.0" orientation="VERTICAL" prefHeight="720.0" />
    </children>
 </Pane>
