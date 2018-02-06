@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.image.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.RowConstraints?>
+
+
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <Button layoutX="227.0" layoutY="649.0" mnemonicParsing="false" text="Parcourir" />
+      <ComboBox layoutX="549.0" layoutY="52.0" prefWidth="150.0" promptText="Date" />
+      <ComboBox layoutX="704.0" layoutY="52.0" prefHeight="31.0" prefWidth="200.0" promptText="La dernière semaine" />
+      <Separator layoutX="953.0" orientation="VERTICAL" prefHeight="720.0" />
+      <Separator layoutX="8.0" layoutY="115.0" prefWidth="1200.0" />
+      <ScrollBar layoutX="914.0" layoutY="130.0" orientation="VERTICAL" prefHeight="472.0" prefWidth="18.0" />
+      <TextArea layoutX="959.0" layoutY="260.0" prefHeight="119.0" prefWidth="200.0" />
+      <TextField layoutX="959.0" layoutY="180.0" />
+      <Label layoutX="479.0" layoutY="57.0" text="Trier par" />
+      <MenuBar layoutX="37.0" layoutY="52.0">
+        <menus>
+          <Menu mnemonicParsing="false" text="Grille">
+            <items>
+              <MenuItem mnemonicParsing="false" text="Close" />
+            </items>
+          </Menu>
+          <Menu mnemonicParsing="false" text="Loupe">
+            <items>
+              <MenuItem mnemonicParsing="false" text="Delete" />
+            </items>
+          </Menu>
+          <Menu mnemonicParsing="false" text="Diaporama">
+            <items>
+              <MenuItem mnemonicParsing="false" text="About" />
+            </items>
+          </Menu>
+        </menus>
+      </MenuBar>
+      <Label layoutX="959.0" layoutY="150.0" text="Nom de l'image" />
+      <Label layoutX="959.0" layoutY="229.0" text="Mot clés" />
+      <Separator layoutX="938.0" layoutY="433.0" prefWidth="250.0" />
+      <Separator layoutY="619.0" prefWidth="1200.0" />
+      <TextField layoutX="24.0" layoutY="649.0" />
+      <TextField layoutX="960.0" layoutY="571.0" prefHeight="31.0" prefWidth="206.0" text="Recherche" />
+      <ListView layoutX="963.0" layoutY="451.0" prefHeight="109.0" prefWidth="200.0" />
+   </children>
+</Pane>
