@@ -25,7 +25,7 @@ public class Main extends Application {
         primaryStage.setScene(scene);
 
         // pour récupérer un element de type Pane (conteneur)
-        TabPane monPane = (TabPane) scene.lookup("#pane3");
+
         primaryStage.show();
     }
 
