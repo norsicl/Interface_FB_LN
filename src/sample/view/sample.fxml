@@ -58,6 +58,21 @@
                               </AnchorPane>
                           </content>
                         </ScrollPane>
+                        <ImageView fitHeight="39.0" fitWidth="44.0" layoutX="976.0" layoutY="24.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@france.png" />
+                           </image>
+                        </ImageView>
+                        <ImageView fitHeight="39.0" fitWidth="44.0" layoutX="1038.0" layoutY="24.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@japan.png" />
+                           </image>
+                        </ImageView>
+                        <ImageView fitHeight="39.0" fitWidth="44.0" layoutX="1089.0" layoutY="24.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@united-states.png" />
+                           </image>
+                        </ImageView>
                      </children>
                   </Pane>
                </content>
