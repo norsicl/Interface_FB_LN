@@ -27,7 +27,7 @@ public class Main extends Application {
         primaryStage.setScene(scene);
 //        Pane pane = new Pane();
 //        root.getChildren().add(pane);
-        AnchorPane anchor = (AnchorPane) scene.lookup("#mAnchor");
+        //AnchorPane anchor = (AnchorPane) scene.lookup("#mAnchor");
         primaryStage.show();
     }
 
