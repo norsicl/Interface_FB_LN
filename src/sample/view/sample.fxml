@@ -15,6 +15,8 @@
       <Button layoutX="227.0" layoutY="649.0" mnemonicParsing="false" onMouseClicked="#Parcourir" text="Parcourir" />
       <Separator layoutX="2.0" layoutY="115.0" prefWidth="1200.0" />
       <Separator layoutY="619.0" prefWidth="1200.0" />
+      <TextField fx:id="chemin" layoutX="24.0" layoutY="649.0" />
+      <TabPane prefHeight="619.0" prefWidth="1200.0" tabClosingPolicy="UNAVAILABLE">
       <TextField layoutX="24.0" layoutY="649.0" />
       <TabPane id="pane3" prefHeight="619.0" prefWidth="1200.0" tabClosingPolicy="UNAVAILABLE">
         <tabs>
