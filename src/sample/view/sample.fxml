@@ -10,7 +10,6 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.RowConstraints?>
 
-
 <Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <Button layoutX="227.0" layoutY="649.0" mnemonicParsing="false" text="Parcourir" />
@@ -28,7 +27,7 @@
                         <Label layoutX="956.0" layoutY="189.0" text="Mot clés" />
                         <TextField layoutX="962.0" layoutY="535.0" prefHeight="31.0" prefWidth="206.0" text="Recherche" />
                         <TextArea layoutX="960.0" layoutY="224.0" prefHeight="119.0" prefWidth="200.0" />
-                        <TextField layoutX="960.0" layoutY="144.0" />
+                        <TextField fx:id="name_img" layoutX="960.0" layoutY="144.0" />
                         <ComboBox layoutX="550.0" layoutY="17.0" prefWidth="150.0" promptText="Date" />
                         <ComboBox layoutX="705.0" layoutY="17.0" prefHeight="31.0" prefWidth="200.0" promptText="La dernière semaine" />
                         <ListView layoutX="965.0" layoutY="413.0" prefHeight="109.0" prefWidth="200.0" />

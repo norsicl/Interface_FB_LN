@@ -2,12 +2,12 @@ package sample;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.*;
-import javafx.scene.layout.*;
+import javafx.scene.control.Tab;
 import javafx.stage.Stage;
+
+import java.awt.*;
 
 public class Main extends Application {
 
@@ -18,15 +18,16 @@ public class Main extends Application {
 //    @Override
     public void start(Stage primaryStage) throws Exception{
         // soit on peut prendre le sample.fxml
-        Parent root = FXMLLoader.load(getClass().getResource("sample.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("view/sample.fxml"));
         // soit on créer directement les element ici
 //        StackPane root = new StackPane();
         Scene scene = new Scene(root,1200,720);
+
         primaryStage.setTitle("Interface FB LN");
         primaryStage.setScene(scene);
-
 //        Pane pane = new Pane();
 //        root.getChildren().add(pane);
+        AnchorPane anchor = (AnchorPane) scene.lookup("#mAnchor");
         primaryStage.show();
     }
 
