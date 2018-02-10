@@ -26,6 +26,8 @@ public class Main extends Application {
 
         // pour récupérer un element de type Pane (conteneur)
 
+
+
         primaryStage.show();
     }
 

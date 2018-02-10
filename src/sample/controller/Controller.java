@@ -1,5 +1,6 @@
 package sample.controller;
 import javafx.collections.ObservableList;
+import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 
@@ -20,6 +21,10 @@ import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
 public class Controller {
+
+    @FXML
+    private TabPane tabPaneRoot;
+
     @FXML
     private TextField chemin;
 //    @FXML
@@ -40,6 +45,9 @@ public class Controller {
         File file = chooser.showDialog(new Stage());
         if (file != null) {
             chemin.setText(file.toString());
+            // tant que il n'y a pas de répétoire selectionné on ne donne pas droit au autre panel
+            tabPaneRoot.getTabs().get(1).setDisable(false);
+            tabPaneRoot.getTabs().get(2).setDisable(false);
         }
 
         File repertoire = new File(chemin.getText());
@@ -47,7 +55,12 @@ public class Controller {
 
         // création de la grille sur 2 colonne
         GridPane imgGrid = new GridPane();
-        imgGrid.setAlignment(Pos.CENTER);
+//        imgGrid.setAlignment(Pos.CENTER);
+//        imgGrid.setFocusTraversable(false);
+//        imgScroll.setFocusTraversable(false);
+//        System.out.print(imgGrid.isMouseTransparent());
+//        imgScroll.setMouseTransparent(true);
+//        imgGrid.setMouseTransparent(true);
 
         System.out.print(files);
         int row = -1; // on part de -1 car l'indice est a 0
@@ -67,7 +80,10 @@ public class Controller {
             Image image = new Image(imageURI, 400, 400, true, true);
             ImageView imageView = new ImageView(image);
             imageView.setId("img_"+i);
-
+//            imageView.setMouseTransparent(false);
+            // on donne le focus pour pouvoir avoir l'évenement du click
+            imageView.setFocusTraversable(true);
+            imageView.setOnMouseClicked(mouseEvent -> System.out.printf("Bouton %s cliqué sur le nœud, %d click(s) %f x %f.", mouseEvent.getButton(), mouseEvent.getClickCount(), mouseEvent.getX(), mouseEvent.getY()).println());
             // ajout chaque image dans une cellule
             imgGrid.add(new ImageView(image),column,row);
 
@@ -81,6 +97,8 @@ public class Controller {
         // mettre des espaces entre les cellules
         imgGrid.setHgap(6);
         imgGrid.setVgap(6);
+//         ImageView photoView = (ImageView)imgGrid.lookup("#img_1");
+
 
         // parti loupe
         // récupére la premier image
@@ -89,16 +107,17 @@ public class Controller {
         // todo : si on veut récupérer un element via l'id ( à tester)
         // ImageView photoView = (ImageView)node.lookup("#img_1");
 
-//        imgGrid.getChildren().setOnMouseClicked ( new EventHandler <MouseEvent>() {
-//            public void handle ( MouseEvent event ) {
-//
-//                Node node = (Node) event.getSource();
-//                System.out.print(node);
-////                ImageView photoView = (ImageView)node.lookup("#"+node.getId());
-////System.out.print(node);
-////                oneImg.setImage(photoView.getImage());
-//            }
-//        });
+        imgGrid.setOnMouseClicked ( new EventHandler <MouseEvent>() {
+            public void handle ( MouseEvent event ) {
+
+                Node node = (Node) event.getSource();
+
+                System.out.print(node);
+//                ImageView photoView = (ImageView)node.lookup("#"+node.getId());
+//System.out.print(node);
+//                oneImg.setImage(photoView.getImage());
+            }
+        });
 
 
     }

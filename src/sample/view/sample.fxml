@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.canvas.*?>
 <?import javafx.scene.media.*?>
 <?import javafx.scene.image.*?>
 <?import javafx.scene.control.*?>
@@ -16,7 +17,7 @@
       <Separator layoutX="2.0" layoutY="115.0" prefWidth="1200.0" />
       <Separator layoutY="619.0" prefWidth="1200.0" />
       <TextField fx:id="chemin" layoutX="24.0" layoutY="649.0" />
-      <TabPane id="pane3" prefHeight="619.0" prefWidth="1200.0" tabClosingPolicy="UNAVAILABLE">
+      <TabPane fx:id="tabPaneRoot" prefHeight="619.0" prefWidth="1200.0" tabClosingPolicy="UNAVAILABLE">
         <tabs>
           <Tab text="Grille">
                <content>
@@ -33,14 +34,14 @@
                         <ListView layoutX="965.0" layoutY="413.0" prefHeight="109.0" prefWidth="200.0" />
                         <ScrollPane fx:id="imgScroll" fitToHeight="true" fitToWidth="true" layoutX="14.0" layoutY="89.0" prefHeight="486.0" prefWidth="933.0" vbarPolicy="ALWAYS">
                           <content>
-                            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="485.0" prefWidth="904.0" />
+                            <AnchorPane focusTraversable="true" minHeight="0.0" minWidth="0.0" prefHeight="485.0" prefWidth="904.0" />
                           </content>
                         </ScrollPane>
                      </children>
                   </Pane>
                </content>
             </Tab>
-          <Tab text="Loupe">
+          <Tab disable="true" text="Loupe">
                <content>
                   <Pane prefHeight="200.0" prefWidth="200.0">
                      <children>
@@ -51,14 +52,9 @@
                   </Pane>
                </content>
             </Tab>
-            <Tab text="Diaporama">
+            <Tab disable="true" text="Diaporama">
               <content>
-                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
-                     <children>
-                        <MediaView fitHeight="200.0" fitWidth="200.0" layoutX="387.0" layoutY="178.0" />
-                        <Pane layoutY="78.0" prefHeight="200.0" prefWidth="200.0" />
-                     </children>
-                  </AnchorPane>
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
               </content>
             </Tab>
         </tabs>
