@@ -40,17 +40,28 @@ public class Controller {
         DirectoryChooser chooser = new DirectoryChooser();
         chooser.setTitle("Open File");
 //      chooser.setInitialDirectory(new File(System.getProperty("user.home")));
-        chooser.setInitialDirectory(new File("./src/sample"));
+        if(chemin.getText() == "" || chemin.getText() == null) {
+            chooser.setInitialDirectory(new File("./src/sample"));
+        }
+        /*else{
+            System.out.println(chemin.getText());
+            //chooser.setInitialDirectory(new File((chemin.getText())));
+        }*/
 
         File file = chooser.showDialog(new Stage());
         if (file != null) {
-            chemin.setText(file.toString());
-            // tant que il n'y a pas de répétoire selectionné on ne donne pas droit au autre panel
-            tabPaneRoot.getTabs().get(1).setDisable(false);
-            tabPaneRoot.getTabs().get(2).setDisable(false);
+            if(chemin.getText() != file.toString()){
+                chemin.setText(file.toString());
+                // tant que il n'y a pas de répétoire selectionné on ne donne pas droit au autre panel
+                tabPaneRoot.getTabs().get(1).setDisable(false);
+                tabPaneRoot.getTabs().get(2).setDisable(false);
+                Image(chemin.getText());
+            }
         }
+    }
 
-        File repertoire = new File(chemin.getText());
+    private void Image(String path){
+        File repertoire = new File(path);
         File[] files = repertoire.listFiles(jpgFileFilter);
 
         // création de la grille sur 2 colonne
@@ -86,10 +97,8 @@ public class Controller {
             imageView.setOnMouseClicked(mouseEvent -> System.out.printf("Bouton %s cliqué sur le nœud, %d click(s) %f x %f.", mouseEvent.getButton(), mouseEvent.getClickCount(), mouseEvent.getX(), mouseEvent.getY()).println());
             // ajout chaque image dans une cellule
             imgGrid.add(new ImageView(image),column,row);
-
-
-
         }
+
         // permet d'ajouter l'object imgGrig a l'object imgScroll pour scroller en fonction du nombre d'image
         imgScroll.setContent(imgGrid);
         // afficher la grille
@@ -107,22 +116,18 @@ public class Controller {
         // todo : si on veut récupérer un element via l'id ( à tester)
         // ImageView photoView = (ImageView)node.lookup("#img_1");
 
-        imgGrid.setOnMouseClicked ( new EventHandler <MouseEvent>() {
-            public void handle ( MouseEvent event ) {
+            /*imgGrid.setOnMouseClicked ( new EventHandler <MouseEvent>()) {
+                public void handle ( MouseEvent event ) {
 
-                Node node = (Node) event.getSource();
+                    Node node = (Node) event.getSource();
 
-                System.out.print(node);
-//                ImageView photoView = (ImageView)node.lookup("#"+node.getId());
-//System.out.print(node);
-//                oneImg.setImage(photoView.getImage());
-            }
-        });
-
-
+                    System.out.print(node);
+            //                ImageView photoView = (ImageView)node.lookup("#"+node.getId());
+            //System.out.print(node);
+            //                oneImg.setImage(photoView.getImage());
+                }
+            });*/
     }
-
-
 
     private static FilenameFilter jpgFileFilter = new FilenameFilter() {
         public boolean accept(File dir, String name) {
