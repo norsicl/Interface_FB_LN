@@ -31,14 +31,14 @@
                         <ComboBox layoutX="831.0" layoutY="20.0" prefWidth="150.0" promptText="Date" />
                         <ComboBox layoutX="986.0" layoutY="20.0" prefHeight="31.0" prefWidth="200.0" promptText="La dernière semaine" />
                         <ListView layoutX="965.0" layoutY="413.0" prefHeight="109.0" prefWidth="200.0" />
-                        <ScrollPane layoutX="14.0" layoutY="89.0" prefHeight="486.0" prefWidth="933.0" vbarPolicy="ALWAYS">
+                        <ScrollPane fx:id="imgScroll" fitToHeight="true" fitToWidth="true" layoutX="14.0" layoutY="89.0" prefHeight="486.0" prefWidth="933.0" vbarPolicy="ALWAYS">
                           <content>
                             <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="485.0" prefWidth="904.0">
                                  <children>
-                                    <GridPane fx:id="imgGrid" prefHeight="484.0" prefWidth="904.0">
+                                    <GridPane fx:id="imgGrid" layoutX="34.0" layoutY="17.0" prefHeight="485.0" prefWidth="904.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                       <columnConstraints>
-                                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="520.0" minWidth="10.0" prefWidth="308.0" />
+                                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="727.0" minWidth="10.0" prefWidth="319.0" />
                                       </columnConstraints>
                                       <rowConstraints>
                                         <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
