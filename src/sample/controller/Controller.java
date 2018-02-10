@@ -3,6 +3,8 @@ import javafx.fxml.FXML;
 
 import javax.swing.*;
 import java.io.*;
+
+import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
@@ -28,6 +30,8 @@ public class Controller {
         //Recupération que des repertoire
         dialogue.setFileSelectionMode(2);
         // affichage
+        // todo: a enlever quand on rend le projet
+        dialogue.setCurrentDirectory(new File("./src/sample/img"));
         dialogue.showOpenDialog(null);
         if (dialogue.getSelectedFile().toString() != null) {
             chemin.setText(dialogue.getSelectedFile().toString());
@@ -36,25 +40,30 @@ public class Controller {
         File repertoire = new File(chemin.getText());
         File[] files = repertoire.listFiles(jpgFileFilter);
         System.out.print(files);
-        int row = 1;
-        int column = 1;
+        int row = -1; // on part de -1 car l'indice est a 0
+        int column = 0;
         for(int i = 0; i < files.length; i++)
         {
             System.out.println("À l'emplacement " + i +" du tableau nous avons = " + files[i]);
 
-            ImageView monImage = new ImageView(files[i].toString());
+            //ImageView monImage = new ImageView(files[i].toString());
+            // pour construire le grid
+            column = (i%2 == 0) ? 0:1 ;
+            row = (i%2 != 1) ? row+1 : row ;
 
-//            column++;
-//            if(i%3 > 3){
-//                row++;
-//                column = 1;
-//            }
+            System.out.println("la ligne"+(row));
+            System.out.println("la colonne"+column);
 
+            String imageURI = new File(files[i].toString()).toURI().toString();
+            Image image = new Image(imageURI, 400, 400, true, true);
+            ImageView imageView = new ImageView(image);
+            imageView.setFitWidth(10);
+            imageView.setFitHeight(10);
+            imageView.setPreserveRatio(true);
+            imageView.setId(toString()+i);
+            // todo : utiliser  un moyen pour le scroll bar car toute les images ne sont pas affiché
+            imgGrid.add(new ImageView(image),column,row);
 
-            Image image = new Image("File:image/"+monImage);
-            imgGrid.getChildren().add(new ImageView(image));
-//            Image image = new Image(files[i].toString());
-//            imgGrid.add(new ImageView(image),0,0);
         }
     }
 
