@@ -96,7 +96,8 @@ public class Controller {
             imageView.setFocusTraversable(true);
             imageView.setOnMouseClicked(mouseEvent -> System.out.printf("Bouton %s cliqué sur le nœud, %d click(s) %f x %f.", mouseEvent.getButton(), mouseEvent.getClickCount(), mouseEvent.getX(), mouseEvent.getY()).println());
             // ajout chaque image dans une cellule
-            imgGrid.add(new ImageView(image),column,row);
+            imgGrid.add(imageView,column,row);
+
         }
 
         // permet d'ajouter l'object imgGrig a l'object imgScroll pour scroller en fonction du nombre d'image
