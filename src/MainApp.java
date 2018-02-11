@@ -1,25 +1,20 @@
-package sample;
-
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Tab;
-import javafx.scene.control.TabPane;
 import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
 
-import java.awt.*;
-
-public class Main extends Application {
+public class MainApp extends Application {
 
     public static void main(String[] args) {
-        Application.launch(Main.class, args);
+        Application.launch(MainApp.class, args);
     }
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-        // soit on peut prendre le sample.fxml
-        Parent root = FXMLLoader.load(getClass().getResource("view/sample.fxml"));
+        // soit on peut prendre le Interface_FB_LN.fxml
+        Parent root = FXMLLoader.load(getClass().getResource("view/Interface_FB_LN.fxml"));
         Scene scene = new Scene(root, 1200, 720);
         primaryStage.setTitle("Interface FB LN");
         primaryStage.setScene(scene);
@@ -27,8 +22,13 @@ public class Main extends Application {
         // pour récupérer un element de type Pane (conteneur)
 
 
-
         primaryStage.show();
-    }
 
+
+        // pour afficher un message avant la fermeture de la fenetre
+        primaryStage.setOnCloseRequest(( WindowEvent we ) -> { System.out.println("Fermeture de l ' application");
+            primaryStage.close();
+        }) ;
+
+    }
 }

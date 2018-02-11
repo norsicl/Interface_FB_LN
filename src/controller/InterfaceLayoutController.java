@@ -1,12 +1,18 @@
-package sample.controller;
+package controller;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 
 import javax.swing.*;
 import java.io.*;
+import java.net.URL;
+import java.util.Observable;
+import java.util.Observer;
+import java.util.ResourceBundle;
 
+import javafx.fxml.Initializable;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.*;
@@ -20,28 +26,31 @@ import javafx.stage.DirectoryChooser;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
-public class Controller {
+public class InterfaceLayoutController implements Initializable {
 
     @FXML
-    private TabPane tabPaneRoot;
+    private TabPane TP_root;
 
     @FXML
-    private TextField chemin;
-//    @FXML
-//    private GridPane imgGrid;
-    @FXML
-    private ScrollPane imgScroll;
-    @FXML
-    private ImageView oneImg;
+    private TextField TF_chemin;
 
-    public void Parcourir() {
-        JFileChooser dialogue;
-        System.out.println(chemin.getText());
+    @FXML
+    private ScrollPane SP_imgScroll;
+    @FXML
+    private ImageView IV_oneImg;
+
+    @FXML
+    protected void handleOnMouseClickedBtnParcourirAction () {
+    System.out.print("test");
+        System.out.println(TF_chemin.getText());
         DirectoryChooser chooser = new DirectoryChooser();
+        chooser.setInitialDirectory(new File("./src"));
         chooser.setTitle("Open File");
 //      chooser.setInitialDirectory(new File(System.getProperty("user.home")));
-        if(chemin.getText() == "" || chemin.getText() == null) {
-            chooser.setInitialDirectory(new File("./src/sample"));
+        System.out.print(TF_chemin.getText());
+        System.out.print(chooser.getInitialDirectory());
+        if(TF_chemin.getText() == "./src/sample" || TF_chemin.getText() == null) {
+            chooser.setInitialDirectory(new File("./src"));
         }
         /*else{
             System.out.println(chemin.getText());
@@ -50,28 +59,24 @@ public class Controller {
 
         File file = chooser.showDialog(new Stage());
         if (file != null) {
-            if(chemin.getText() != file.toString()){
-                chemin.setText(file.toString());
+            if(TF_chemin.getText() != file.toString()){
+                TF_chemin.setText(file.toString());
                 // tant que il n'y a pas de répétoire selectionné on ne donne pas droit au autre panel
-                tabPaneRoot.getTabs().get(1).setDisable(false);
-                tabPaneRoot.getTabs().get(2).setDisable(false);
-                Image(chemin.getText());
+                TP_root.getTabs().get(1).setDisable(false);
+                TP_root.getTabs().get(2).setDisable(false);
+                Image(TF_chemin.getText());
             }
         }
     }
+
 
     private void Image(String path){
         File repertoire = new File(path);
         File[] files = repertoire.listFiles(jpgFileFilter);
 
         // création de la grille sur 2 colonne
-        GridPane imgGrid = new GridPane();
-//        imgGrid.setAlignment(Pos.CENTER);
-//        imgGrid.setFocusTraversable(false);
-//        imgScroll.setFocusTraversable(false);
-//        System.out.print(imgGrid.isMouseTransparent());
-//        imgScroll.setMouseTransparent(true);
-//        imgGrid.setMouseTransparent(true);
+        GridPane GP_imgGrid = new GridPane();
+        GP_imgGrid.setAlignment(Pos.CENTER);
 
         System.out.print(files);
         int row = -1; // on part de -1 car l'indice est a 0
@@ -88,32 +93,32 @@ public class Controller {
             System.out.println("la colonne"+column);
 
             String imageURI = new File(files[i].toString()).toURI().toString();
-            Image image = new Image(imageURI, 400, 400, true, true);
-            ImageView imageView = new ImageView(image);
-            imageView.setId("img_"+i);
+            Image I_image = new Image(imageURI, 400, 400, true, true);
+            ImageView IV_imageView = new ImageView(I_image);
+            IV_imageView.setId("img_"+i);
 //            imageView.setMouseTransparent(false);
             // on donne le focus pour pouvoir avoir l'évenement du click
-            imageView.setFocusTraversable(true);
-            imageView.setOnMouseClicked(mouseEvent -> System.out.printf("Bouton %s cliqué sur le nœud, %d click(s) %f x %f.", mouseEvent.getButton(), mouseEvent.getClickCount(), mouseEvent.getX(), mouseEvent.getY()).println());
+            IV_imageView.setFocusTraversable(true);
+            IV_imageView.setOnMouseClicked(mouseEvent -> System.out.printf("Bouton %s cliqué sur le nœud, %d click(s) %f x %f.", mouseEvent.getButton(), mouseEvent.getClickCount(), mouseEvent.getX(), mouseEvent.getY()).println());
             // ajout chaque image dans une cellule
-            imgGrid.add(imageView,column,row);
+            GP_imgGrid.add(IV_imageView,column,row);
 
         }
 
         // permet d'ajouter l'object imgGrig a l'object imgScroll pour scroller en fonction du nombre d'image
-        imgScroll.setContent(imgGrid);
+        SP_imgScroll.setContent(GP_imgGrid);
         // afficher la grille
-        imgGrid.setGridLinesVisible(true);
+        GP_imgGrid.setGridLinesVisible(true);
         // mettre des espaces entre les cellules
-        imgGrid.setHgap(6);
-        imgGrid.setVgap(6);
+        GP_imgGrid.setHgap(6);
+        GP_imgGrid.setVgap(6);
 //         ImageView photoView = (ImageView)imgGrid.lookup("#img_1");
 
 
         // parti loupe
         // récupére la premier image
-        ImageView nodeImage1 = (ImageView) imgGrid.getChildren().get(0);
-        oneImg.setImage(nodeImage1.getImage());
+        ImageView nodeImage1 = (ImageView) GP_imgGrid.getChildren().get(0);
+        IV_oneImg.setImage(nodeImage1.getImage());
         // todo : si on veut récupérer un element via l'id ( à tester)
         // ImageView photoView = (ImageView)node.lookup("#img_1");
 
@@ -130,9 +135,24 @@ public class Controller {
             });*/
     }
 
-    private static FilenameFilter jpgFileFilter = new FilenameFilter() {
+    private static final FilenameFilter jpgFileFilter = new FilenameFilter() {
         public boolean accept(File dir, String name) {
             return name.endsWith(".jpg");
         }
     };
+
+    // ici les initalisation concernant le controlleur
+    /**
+     * Initializes the controller class . This method is automatically called
+     * after the fxml file has been loaded .
+     */
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
+//        System.out.print(location);
+//        System.out.print(resources);
+//        m_model = new CounterModel () ;
+//        m_model . addObserver ( this ) ;
+//        valueLabel . setText ( m_model . getValue () );
+
+    }
 }

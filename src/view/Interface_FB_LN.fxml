@@ -11,13 +11,13 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.RowConstraints?>
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.controller.Controller">
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.InterfaceLayoutController">
    <children>
-      <Button layoutX="227.0" layoutY="649.0" mnemonicParsing="false" onMouseClicked="#Parcourir" text="Parcourir" />
+      <Button layoutX="227.0" layoutY="649.0" mnemonicParsing="false" onMouseClicked="#handleOnMouseClickedBtnParcourirAction" text="Parcourir" />
       <Separator layoutX="2.0" layoutY="115.0" prefWidth="1200.0" />
       <Separator layoutY="619.0" prefWidth="1200.0" />
-      <TextField fx:id="chemin" layoutX="24.0" layoutY="649.0" />
-      <TabPane fx:id="tabPaneRoot" prefHeight="619.0" prefWidth="1200.0" tabClosingPolicy="UNAVAILABLE">
+      <TextField fx:id="TF_chemin" layoutX="24.0" layoutY="649.0" />
+      <TabPane fx:id="TP_root" prefHeight="619.0" prefWidth="1200.0" tabClosingPolicy="UNAVAILABLE">
         <tabs>
           <Tab text="Grille">
                <content>
@@ -28,11 +28,11 @@
                         <Label layoutX="956.0" layoutY="189.0" text="Mot clés" />
                         <TextField layoutX="962.0" layoutY="535.0" prefHeight="31.0" prefWidth="206.0" text="Recherche" />
                         <TextArea layoutX="960.0" layoutY="224.0" prefHeight="119.0" prefWidth="200.0" />
-                        <TextField fx:id="name_img" layoutX="960.0" layoutY="144.0" />
+                        <TextField fx:id="TF_nameImg" layoutX="960.0" layoutY="144.0" />
                         <ComboBox layoutX="570.0" layoutY="20.0" prefWidth="150.0" promptText="Date" />
                         <ComboBox layoutX="725.0" layoutY="20.0" prefHeight="31.0" prefWidth="200.0" promptText="La dernière semaine" />
                         <ListView layoutX="965.0" layoutY="413.0" prefHeight="109.0" prefWidth="200.0" />
-                        <ScrollPane fx:id="imgScroll" fitToHeight="true" fitToWidth="true" layoutX="14.0" layoutY="89.0" prefHeight="486.0" prefWidth="933.0" vbarPolicy="ALWAYS">
+                        <ScrollPane fx:id="SP_imgScroll" fitToHeight="true" fitToWidth="true" layoutX="14.0" layoutY="89.0" prefHeight="486.0" prefWidth="933.0" vbarPolicy="ALWAYS">
                           <content>
                             <AnchorPane focusTraversable="true" minHeight="0.0" minWidth="0.0" prefHeight="485.0" prefWidth="904.0" />
                           </content>
@@ -47,7 +47,7 @@
                      <children>
                         <Button layoutX="201.0" layoutY="510.0" mnemonicParsing="false" text="Button" />
                         <Button layoutX="707.0" layoutY="510.0" mnemonicParsing="false" text="Button" />
-                        <ImageView fx:id="oneImg" fitHeight="360.0" fitWidth="569.0" layoutX="201.0" layoutY="135.0" pickOnBounds="true" preserveRatio="true" />
+                        <ImageView fx:id="IV_oneImg" fitHeight="360.0" fitWidth="569.0" layoutX="201.0" layoutY="135.0" pickOnBounds="true" preserveRatio="true" />
                      </children>
                   </Pane>
                </content>
