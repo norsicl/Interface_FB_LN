@@ -25,18 +25,19 @@
                      <children>
                         <Label layoutX="491.0" layoutY="25.0" text="Trier par" />
                         <Label layoutX="959.0" layoutY="106.0" text="Nom de l'image" />
-                        <Label layoutX="956.0" layoutY="189.0" text="Mot clés" />
+                        <Label layoutX="965.0" layoutY="188.0" text="Mot clés" />
                         <TextField layoutX="962.0" layoutY="535.0" prefHeight="31.0" prefWidth="206.0" text="Recherche" />
-                        <TextArea layoutX="960.0" layoutY="224.0" prefHeight="119.0" prefWidth="200.0" />
-                        <TextField fx:id="TF_nameImg" layoutX="960.0" layoutY="144.0" />
+                        <TextArea fx:id="TA_keyWord" layoutX="960.0" layoutY="224.0" prefHeight="119.0" prefWidth="207.0" />
+                        <TextField fx:id="TF_nameImg" layoutX="960.0" layoutY="144.0" prefHeight="31.0" prefWidth="208.0" />
                         <ComboBox layoutX="570.0" layoutY="20.0" prefWidth="150.0" promptText="Date" />
                         <ComboBox layoutX="725.0" layoutY="20.0" prefHeight="31.0" prefWidth="200.0" promptText="La dernière semaine" />
-                        <ListView layoutX="965.0" layoutY="413.0" prefHeight="109.0" prefWidth="200.0" />
+                        <ListView fx:id="LV_KeyWords" layoutX="965.0" layoutY="413.0" prefHeight="109.0" prefWidth="200.0" />
                         <ScrollPane fx:id="SP_imgScroll" fitToHeight="true" fitToWidth="true" layoutX="14.0" layoutY="89.0" prefHeight="486.0" prefWidth="933.0" vbarPolicy="ALWAYS">
                           <content>
                             <AnchorPane focusTraversable="true" minHeight="0.0" minWidth="0.0" prefHeight="485.0" prefWidth="904.0" />
                           </content>
                         </ScrollPane>
+                        <Label layoutX="965.0" layoutY="380.0" text="Filtrage par mots-clés" />
                      </children>
                   </Pane>
                </content>
@@ -48,18 +49,50 @@
                         <Button layoutX="201.0" layoutY="510.0" mnemonicParsing="false" text="Button" />
                         <Button layoutX="707.0" layoutY="510.0" mnemonicParsing="false" text="Button" />
                         <ImageView fx:id="IV_oneImg" fitHeight="360.0" fitWidth="569.0" layoutX="201.0" layoutY="135.0" pickOnBounds="true" preserveRatio="true" />
+                        <TextField fx:id="TF_nameImgLoupe" layoutX="970.0" layoutY="132.0" prefHeight="31.0" prefWidth="208.0" />
+                        <TextArea fx:id="TA_keyWordLoupe" layoutX="970.0" layoutY="212.0" prefHeight="119.0" prefWidth="207.0" />
+                        <Label layoutX="966.0" layoutY="177.0" text="Mot clés" />
+                        <Label layoutX="969.0" layoutY="94.0" text="Nom de l'image" />
                      </children>
                   </Pane>
                </content>
             </Tab>
             <Tab disable="true" text="Diaporama">
               <content>
-                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <Label layoutX="970.0" layoutY="96.0" text="Auteur :" />
+                        <Label layoutX="970.0" layoutY="137.0" text="Date :" />
+                        <Label layoutX="970.0" layoutY="177.0" text="Dernière modif :" />
+                        <Label layoutX="970.0" layoutY="211.0" text="Poids Photo :" />
+                        <Label layoutX="970.0" layoutY="286.0" text="Nom du fichier :" />
+                        <Label layoutX="970.0" layoutY="248.0" text="Dimension :" />
+                        <Label layoutX="970.0" layoutY="481.0" text="Focale :" />
+                        <Label layoutX="970.0" layoutY="509.0" text="Diaphragme :" />
+                        <Label layoutX="970.0" layoutY="441.0" text="Vitesse :" />
+                        <Label layoutX="970.0" layoutY="401.0" text="Objectif :" />
+                        <Label layoutX="970.0" layoutY="371.0" text="Modèle :" />
+                        <Label layoutX="970.0" layoutY="337.0" text="Marque :" />
+                        <Separator layoutX="929.0" layoutY="331.0" prefWidth="250.0" />
+                        <Label layoutX="970.0" layoutY="548.0" text="ISO :" />
+                        <Label fx:id="L_dimension" layoutX="1080.0" layoutY="248.0" />
+                        <Label fx:id="L_nomFichier" layoutX="1080.0" layoutY="286.0" />
+                        <Label fx:id="L_poidsPhoto" layoutX="1080.0" layoutY="211.0" />
+                        <Label fx:id="L_derniereModif" layoutX="1080.0" layoutY="177.0" />
+                        <Label fx:id="L_date" layoutX="1080.0" layoutY="137.0" />
+                        <Label fx:id="L_auteur" layoutX="1080.0" layoutY="96.0" />
+                        <Label fx:id="L_iso" layoutX="1077.0" layoutY="551.0" />
+                        <Label fx:id="L_marque" layoutX="1077.0" layoutY="340.0" />
+                        <Label fx:id="L_modele" layoutX="1077.0" layoutY="374.0" />
+                        <Label fx:id="L_objectif" layoutX="1077.0" layoutY="404.0" />
+                        <Label fx:id="L_vitesse" layoutX="1077.0" layoutY="444.0" />
+                        <Label fx:id="L_diaphragme" layoutX="1077.0" layoutY="512.0" />
+                        <Label fx:id="L_focale" layoutX="1077.0" layoutY="484.0" />
+                     </children></AnchorPane>
               </content>
             </Tab>
         </tabs>
       </TabPane>
-      <Separator layoutX="954.0" layoutY="408.0" prefWidth="250.0" />
       <Separator layoutX="951.0" layoutY="39.0" orientation="VERTICAL" prefHeight="720.0" />
       <ImageView fitHeight="39.0" fitWidth="44.0" layoutX="980.0" layoutY="643.0" pickOnBounds="true" preserveRatio="true">
          <image>
