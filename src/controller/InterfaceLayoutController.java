@@ -321,10 +321,15 @@ public class InterfaceLayoutController implements Initializable {
                                 MapKeyWords.put(iptcRecord.getValue(), iptcRecord.getValue());
                             }
                         }
-                    }}
+                    }
+                }
 
             } else {
-
+                System.out.print(field);
+                for(int i = 0; i < field.getStringValue().split(";").length; i++) {
+                   String keyWord = field.getStringValue().split(";")[i];
+                    MapKeyWords.put(keyWord,keyWord);
+                }
             }
         }
     }
