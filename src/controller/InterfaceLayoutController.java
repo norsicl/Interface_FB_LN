@@ -19,6 +19,7 @@ import model.InterfaceModelProperty;
 import org.apache.commons.imaging.ImageReadException;
 import org.apache.commons.imaging.Imaging;
 import org.apache.commons.imaging.common.IImageMetadata;
+import org.apache.commons.imaging.common.ImageMetadata;
 import org.apache.commons.imaging.formats.jpeg.JpegImageMetadata;
 import org.apache.commons.imaging.formats.jpeg.iptc.IptcRecord;
 import org.apache.commons.imaging.formats.tiff.TiffField;
@@ -84,6 +85,8 @@ public class InterfaceLayoutController implements Initializable {
 
     private InterfaceModelProperty m_model ;
     public Map<String, String> MapKeyWords = new HashMap<>();
+    public GridPane GP_imgGrid;
+    public File[] files;
 
     @FXML
     public void handleOnMouseClickedBtnParcourirAction () throws IOException, ImageReadException {
@@ -125,59 +128,81 @@ public class InterfaceLayoutController implements Initializable {
 
     }
 
+    @FXML
+    public void handleOnMouseClickedListViewLV_KeyWords() throws IOException, ImageReadException {
+        int compteur = 0;
+        String KeyWord;
+        IImageMetadata metadata;
+        File[] fileTried = new File[files.length];
+        KeyWord = LV_KeyWords.getSelectionModel().getSelectedItem().toString();
+        //GP_imgGrid.addEventFilter();
+        for (File file : files) {
+            metadata =  Imaging.getMetadata(file);
+            //if(metadata.toString() == KeyWord){
+            for(IImageMetadata.IImageMetadataItem img : metadata.getItems()){
+                //System.out.println(img);
+            }
+
+                //fileTried[compteur] = file;
+            //}
+        }
+        //AjoutImage(fileTried);
+    }
+
 
     private void BuildGridImages(String path) throws IOException, ImageReadException {
         File repertoire = new File(path);
-        File[] files = repertoire.listFiles(jpgFileFilter);
+        files = repertoire.listFiles(jpgFileFilter);
 
         // création de la grille sur 2 colonne
-        GridPane GP_imgGrid = new GridPane();
+        GP_imgGrid = new GridPane();
         GP_imgGrid.setAlignment(Pos.CENTER);
 
         System.out.print(files);
-        int row = -1; // on part de -1 car l'indice est a 0
-        int column = 0;
-        for(int i = 0; i < files.length; i++)
-        {
-            System.out.println("À l'emplacement " + i +" du tableau nous avons = " + files[i]);
-            //File monFileAbsolue = new File(TF_chemin.getText()+"\\"+monFile.getName());
-            AllKeyWords(files[i]);
-            // pour construire le grid
-            column = (i%2 == 0) ? 0:1 ;
-            row = (i%2 != 1) ? row+1 : row ;
+        AjoutImage(files);
+    }
 
-            System.out.println("la ligne"+(row));
-            System.out.println("la colonne"+column);
+        public void AjoutImage(File[] files) throws IOException, ImageReadException  {
+            int row = -1; // on part de -1 car l'indice est a 0
+            int column = 0;
+            for(int i = 0; i < files.length; i++)
+            {
+                System.out.println("À l'emplacement " + i +" du tableau nous avons = " + files[i]);
+                //File monFileAbsolue = new File(TF_chemin.getText()+"\\"+monFile.getName());
+                AllKeyWords(files[i]);
+                // pour construire le grid
+                column = (i%2 == 0) ? 0:1 ;
+                row = (i%2 != 1) ? row+1 : row ;
 
-            String imageURI = new File(files[i].toString()).toURI().toString();
-            Image I_image = new Image(imageURI, 400, 400, true, true);
-            ImageView IV_imageView = new ImageView(I_image);
-            IV_imageView.setId("img_"+i);
-            IV_imageView.setOnMouseClicked (new EventHandler<MouseEvent>() {
-                @Override
-                public void handle(MouseEvent event) {
-                    ImageView node = (ImageView) event.getSource();
-                    try {
-                        seletedImg(node);
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    } catch (ImageReadException e) {
-                        e.printStackTrace();
-                    }
+                System.out.println("la ligne"+(row));
+                System.out.println("la colonne"+column);
+
+                String imageURI = new File(files[i].toString()).toURI().toString();
+                Image I_image = new Image(imageURI, 400, 400, true, true);
+                ImageView IV_imageView = new ImageView(I_image);
+                IV_imageView.setId("img_"+i);
+                IV_imageView.setOnMouseClicked (new EventHandler<MouseEvent>() {
+                    @Override
+                    public void handle(MouseEvent event) {
+                        ImageView node = (ImageView) event.getSource();
+                        try {
+                            seletedImg(node);
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        } catch (ImageReadException e) {
+                            e.printStackTrace();
+                        }
 //                    IV_oneImg.setImage(node.getImage());
 //                    File monFile = new File(node.getImage().getUrl());
 //                    TF_nameImg.setText(monFile.getName());
-                }
-            });
+                    }
+                });
 
 //            IV_imageView.setOnMouseClicked(mouseEvent ->IV_oneImg.setImage(((ImageView) mouseEvent.getSource()).getImage()));
 
-            // ajout chaque image dans une cellule
-            GP_imgGrid.add(IV_imageView,column,row);
-
+                // ajout chaque image dans une cellule
+                GP_imgGrid.add(IV_imageView,column,row);
         }
-
-
 
         for(Map.Entry<String, String> entry : MapKeyWords.entrySet()) {
             LV_KeyWords.getItems().add(entry.getValue());
@@ -197,7 +222,6 @@ public class InterfaceLayoutController implements Initializable {
         // récupére la premier image
         ImageView nodeImage = (ImageView) GP_imgGrid.getChildren().get(0);
         seletedImg(nodeImage);
-
     }
 
     private static final FilenameFilter jpgFileFilter = new FilenameFilter() {

@@ -31,7 +31,7 @@
                         <TextField fx:id="TF_nameImg" layoutX="960.0" layoutY="144.0" prefHeight="31.0" prefWidth="208.0" />
                         <ComboBox layoutX="570.0" layoutY="20.0" prefWidth="150.0" promptText="Date" />
                         <ComboBox layoutX="725.0" layoutY="20.0" prefHeight="31.0" prefWidth="200.0" promptText="La dernière semaine" />
-                        <ListView fx:id="LV_KeyWords" layoutX="965.0" layoutY="413.0" prefHeight="109.0" prefWidth="200.0" />
+                        <ListView fx:id="LV_KeyWords" layoutX="965.0" layoutY="413.0" onMouseClicked="#handleOnMouseClickedListViewLV_KeyWords" prefHeight="109.0" prefWidth="200.0" />
                         <ScrollPane fx:id="SP_imgScroll" fitToHeight="true" fitToWidth="true" layoutX="14.0" layoutY="89.0" prefHeight="486.0" prefWidth="933.0" vbarPolicy="ALWAYS">
                           <content>
                             <AnchorPane focusTraversable="true" minHeight="0.0" minWidth="0.0" prefHeight="485.0" prefWidth="904.0" />
