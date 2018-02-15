@@ -216,7 +216,7 @@ public class InterfaceLayoutController implements Initializable {
 //        System.out.print(location);
 //        System.out.print(resources);
         m_model = new InterfaceModelProperty();
-
+        TA_keyWord.setWrapText(true);
 //        TF_nameImg . textProperty () . bind ( TF_nameImgLoupe) ;
 
 
@@ -301,7 +301,7 @@ public class InterfaceLayoutController implements Initializable {
                 }
 
             } else {
-                System.out.print(field);
+               // pour les image qui ne vienent pas de photoshop
                 for(int i = 0; i < field.getStringValue().split(";").length; i++) {
                    String keyWord = field.getStringValue().split(";")[i];
                     MapKeyWords.put(keyWord,keyWord);
