@@ -1,4 +1,6 @@
 package controller;
+import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 
@@ -114,9 +116,19 @@ public class InterfaceLayoutController implements Initializable {
 
 
 
+//                ObservableList<String> copiedItems = LV_KeyWords.getItems();
+//                int size = copiedItems.size();
+//
+//                // remove all elements
+//                for(int i=0;i<size;i++) {
+//                    copiedItems.remove(i);
+//                }
+//                LV_KeyWords.setItems(copiedItems);
+
                 // todo ; remettre a zero quand on recharge toute les images
 //                LV_KeyWords.getSelectionModel().clearSelection();
-//                LV_KeyWords.getItems().clear();
+                  LV_KeyWords.getItems().clear();
+
 //                List<Integer> selectedItemsCopy = new ArrayList<>(LV_KeyWords.getSelectionModel().getSelectedItems());
 //                LV_KeyWords.getItems().removeAll(selectedItemsCopy.toArray().toString());
 //                LV_KeyWords.refresh();
