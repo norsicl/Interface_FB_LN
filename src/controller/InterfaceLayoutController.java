@@ -19,11 +19,9 @@ import model.InterfaceModelProperty;
 import org.apache.commons.imaging.ImageReadException;
 import org.apache.commons.imaging.Imaging;
 import org.apache.commons.imaging.common.IImageMetadata;
-import org.apache.commons.imaging.common.ImageMetadata;
 import org.apache.commons.imaging.formats.jpeg.JpegImageMetadata;
 import org.apache.commons.imaging.formats.jpeg.iptc.IptcRecord;
 import org.apache.commons.imaging.formats.tiff.TiffField;
-import org.apache.commons.imaging.formats.tiff.constants.AdobePhotoshopTagConstants;
 import org.apache.commons.imaging.formats.tiff.constants.ExifTagConstants;
 import org.apache.commons.imaging.formats.tiff.constants.MicrosoftTagConstants;
 import org.apache.commons.imaging.formats.tiff.constants.TiffTagConstants;
@@ -115,6 +113,7 @@ public class InterfaceLayoutController implements Initializable {
                 TP_root.getTabs().get(2).setDisable(false);
 
 
+
                 // todo ; remettre a zero quand on recharge toute les images
 //                LV_KeyWords.getSelectionModel().clearSelection();
 //                LV_KeyWords.getItems().clear();
@@ -130,25 +129,44 @@ public class InterfaceLayoutController implements Initializable {
 
     @FXML
     public void handleOnMouseClickedListViewLV_KeyWords() throws IOException, ImageReadException {
-        int compteur = 0;
-        String KeyWord;
-        IImageMetadata metadata;
+        String KeyWordSeleted;
+        int counter=0;
         File[] fileTried = new File[files.length];
-        KeyWord = LV_KeyWords.getSelectionModel().getSelectedItem().toString();
-        //GP_imgGrid.addEventFilter();
-        for (File file : files) {
-            metadata =  Imaging.getMetadata(file);
-            //if(metadata.toString() == KeyWord){
-            for(IImageMetadata.IImageMetadataItem img : metadata.getItems()){
-                //System.out.println(img);
+        KeyWordSeleted = LV_KeyWords.getSelectionModel().getSelectedItem().toString();
+        // reinitialiser le filtre
+        if (!KeyWordSeleted.equals("all")) {
+            for (File file : files) {
+                IImageMetadata metadataFilter = Imaging.getMetadata(file);
+                if (metadataFilter instanceof JpegImageMetadata) {
+                    JpegImageMetadata jpegMetadata = (JpegImageMetadata) metadataFilter;
+                    for (int i = 0; i < printTagValue(jpegMetadata, MicrosoftTagConstants.EXIF_TAG_XPKEYWORDS).split(";").length; i++) {
+                        if (printTagValue(jpegMetadata, MicrosoftTagConstants.EXIF_TAG_XPKEYWORDS).split(";")[i].equals(KeyWordSeleted)) {
+                            fileTried[counter] = file;
+                        }
+                    }
+                }
+                counter++;
             }
-
-                //fileTried[compteur] = file;
-            //}
+            //init
+            counter = 0;
+            GP_imgGrid.getChildren().clear();
+            AjoutImage(rebuilidIndexArray(fileTried));
+        } else {
+            GP_imgGrid.getChildren().clear();
+            AjoutImage(files);
         }
-        //AjoutImage(fileTried);
     }
 
+    private File[] rebuilidIndexArray(File [] fileTried){
+        int j = 0;
+        File[] fileTriedReBuild = new File[files.length];
+        for (int i = 0; i < fileTried.length; i++) {
+            if (fileTried[i] != null) {
+                fileTriedReBuild[j++]=fileTried[i];
+            }
+        }
+        return fileTriedReBuild;
+    }
 
     private void BuildGridImages(String path) throws IOException, ImageReadException {
         File repertoire = new File(path);
@@ -162,26 +180,30 @@ public class InterfaceLayoutController implements Initializable {
         AjoutImage(files);
     }
 
-        public void AjoutImage(File[] files) throws IOException, ImageReadException  {
-            int row = -1; // on part de -1 car l'indice est a 0
-            int column = 0;
-            for(int i = 0; i < files.length; i++)
-            {
-                System.out.println("À l'emplacement " + i +" du tableau nous avons = " + files[i]);
-                //File monFileAbsolue = new File(TF_chemin.getText()+"\\"+monFile.getName());
+    public void AjoutImage(File[] files) throws IOException, ImageReadException  {
+        int row = -1; // on part de -1 car l'indice est a 0
+        int column = 0;
+        ImageView IV_imageView;
+        for(int i = 0; i < files.length; i++)
+        {
+            System.out.println("À l'emplacement " + i +" du tableau nous avons = " + files[i]);
+            //File monFileAbsolue = new File(TF_chemin.getText()+"\\"+monFile.getName());
+            if (files[i] != null) {
                 AllKeyWords(files[i]);
-                // pour construire le grid
-                column = (i%2 == 0) ? 0:1 ;
-                row = (i%2 != 1) ? row+1 : row ;
 
-                System.out.println("la ligne"+(row));
-                System.out.println("la colonne"+column);
+                // pour construire le grid
+                column = (i % 2 == 0) ? 0 : 1;
+                row = (i % 2 != 1) ? row + 1 : row;
+
+                System.out.println("la ligne" + (row));
+                System.out.println("la colonne" + column);
 
                 String imageURI = new File(files[i].toString()).toURI().toString();
-                Image I_image = new Image(imageURI, 400, 400, true, true);
-                ImageView IV_imageView = new ImageView(I_image);
-                IV_imageView.setId("img_"+i);
-                IV_imageView.setOnMouseClicked (new EventHandler<MouseEvent>() {
+                Image I_image   = new Image(imageURI, 400, 400, true, true);
+                IV_imageView    = new ImageView(I_image);
+                IV_imageView.setId("img_" + i);
+
+                IV_imageView.setOnMouseClicked(new EventHandler<MouseEvent>() {
                     @Override
                     public void handle(MouseEvent event) {
                         ImageView node = (ImageView) event.getSource();
@@ -197,13 +219,15 @@ public class InterfaceLayoutController implements Initializable {
 //                    TF_nameImg.setText(monFile.getName());
                     }
                 });
-
-//            IV_imageView.setOnMouseClicked(mouseEvent ->IV_oneImg.setImage(((ImageView) mouseEvent.getSource()).getImage()));
-
                 // ajout chaque image dans une cellule
                 GP_imgGrid.add(IV_imageView,column,row);
-        }
+            }
+//            IV_imageView.setOnMouseClicked(mouseEvent ->IV_oneImg.setImage(((ImageView) mouseEvent.getSource()).getImage()));
 
+
+
+        }
+        MapKeyWords.put("all","all");
         for(Map.Entry<String, String> entry : MapKeyWords.entrySet()) {
             LV_KeyWords.getItems().add(entry.getValue());
         }
@@ -241,6 +265,7 @@ public class InterfaceLayoutController implements Initializable {
 //        System.out.print(resources);
         m_model = new InterfaceModelProperty();
         TA_keyWord.setWrapText(true);
+        TA_keyWordLoupe.setWrapText(true);
 //        TF_nameImg . textProperty () . bind ( TF_nameImgLoupe) ;
 
 
@@ -256,10 +281,11 @@ public class InterfaceLayoutController implements Initializable {
         final TiffField field = jpegMetadata.findEXIFValueWithExactMatch(tagInfo);
         String keyWords = "";
         if ((MicrosoftTagConstants.EXIF_TAG_XPKEYWORDS == tagInfo) && (field == null)) {
-            for(int i = 0; i < jpegMetadata.getPhotoshop().getItems().size(); i++)
-            {
-                if (jpegMetadata.getPhotoshop().photoshopApp13Data.getRecords().get(i).getIptcTypeName() == "Keywords") {
-                    keyWords +=  jpegMetadata.getPhotoshop().photoshopApp13Data.getRecords().get(i).getValue()+";";
+            if (jpegMetadata.getPhotoshop() != null) {
+                for (int i = 0; i < jpegMetadata.getPhotoshop().getItems().size(); i++) {
+                    if (jpegMetadata.getPhotoshop().photoshopApp13Data.getRecords().get(i).getIptcTypeName() == "Keywords") {
+                        keyWords += jpegMetadata.getPhotoshop().photoshopApp13Data.getRecords().get(i).getValue() + ";";
+                    }
                 }
             }
 
@@ -269,7 +295,6 @@ public class InterfaceLayoutController implements Initializable {
         } else {
             return  field.getValue().toString();
         }
-
     }
 
 
@@ -301,6 +326,9 @@ public class InterfaceLayoutController implements Initializable {
 
             TA_keyWord.setText(printTagValue(jpegMetadata,MicrosoftTagConstants.EXIF_TAG_XPKEYWORDS));
             TA_keyWordLoupe.setText(printTagValue(jpegMetadata,MicrosoftTagConstants.EXIF_TAG_XPKEYWORDS));
+        } else {
+            TA_keyWord.setText("");
+            TA_keyWordLoupe.setText("");
         }
     }
 
@@ -325,9 +353,9 @@ public class InterfaceLayoutController implements Initializable {
                 }
 
             } else {
-               // pour les image qui ne vienent pas de photoshop
+                // pour les image qui ne vienent pas de photoshop
                 for(int i = 0; i < field.getStringValue().split(";").length; i++) {
-                   String keyWord = field.getStringValue().split(";")[i];
+                    String keyWord = field.getStringValue().split(";")[i];
                     MapKeyWords.put(keyWord,keyWord);
                 }
             }
