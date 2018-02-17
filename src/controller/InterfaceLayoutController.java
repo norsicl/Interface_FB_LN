@@ -1,9 +1,13 @@
 package controller;
-import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
+import helper.StringHelper;
+import javafx.beans.InvalidationListener;
+import javafx.beans.Observable;
+import javafx.beans.WeakInvalidationListener;
+import javafx.beans.value.ObservableValue;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 
+import java.awt.event.MouseListener;
 import java.io.*;
 import java.net.URL;
 import java.util.*;
@@ -17,7 +21,7 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.image.Image ;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.Stage;
-import model.InterfaceModelProperty;
+import model.FocusPropertyChangeListener;
 import org.apache.commons.imaging.ImageReadException;
 import org.apache.commons.imaging.Imaging;
 import org.apache.commons.imaging.common.IImageMetadata;
@@ -81,12 +85,13 @@ public class InterfaceLayoutController implements Initializable {
     private TextArea TA_keyWordLoupe;
 
     @FXML
-    private ListView LV_KeyWords;
+    private ListView<String> LV_KeyWords;
 
-    private InterfaceModelProperty m_model ;
+    //    private FocusPropertyChangeListener m_model ;
     public Map<String, String> MapKeyWords = new HashMap<>();
     public GridPane GP_imgGrid;
     public File[] files;
+    public String KeyWordsNotChanged;
 
     @FXML
     public void handleOnMouseClickedBtnParcourirAction () throws IOException, ImageReadException {
@@ -115,23 +120,22 @@ public class InterfaceLayoutController implements Initializable {
                 TP_root.getTabs().get(2).setDisable(false);
 
 
+                // remettre a zero quand on recharge toute les images
+                if (MapKeyWords.containsValue("all")) {
+                    MapKeyWords.clear();
+                    LV_KeyWords.getItems().setAll("");
+                }
 
-//                ObservableList<String> copiedItems = LV_KeyWords.getItems();
-//                int size = copiedItems.size();
+                KeyWordsNotChanged = TA_keyWord.getText();
+                //TA_keyWord.focusedProperty().addListener(notify());
+//                TA_keyWord.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
+//                    @Override
+//                    public void handle(MouseEvent event) {
 //
-//                // remove all elements
-//                for(int i=0;i<size;i++) {
-//                    copiedItems.remove(i);
-//                }
-//                LV_KeyWords.setItems(copiedItems);
+//
+//                    }
+//                });
 
-                // todo ; remettre a zero quand on recharge toute les images
-//                LV_KeyWords.getSelectionModel().clearSelection();
-                  LV_KeyWords.getItems().clear();
-
-//                List<Integer> selectedItemsCopy = new ArrayList<>(LV_KeyWords.getSelectionModel().getSelectedItems());
-//                LV_KeyWords.getItems().removeAll(selectedItemsCopy.toArray().toString());
-//                LV_KeyWords.refresh();
                 BuildGridImages(TF_chemin.getText());
 
             }
@@ -144,7 +148,7 @@ public class InterfaceLayoutController implements Initializable {
         String KeyWordSeleted;
         int counter=0;
         File[] fileTried = new File[files.length];
-        KeyWordSeleted = LV_KeyWords.getSelectionModel().getSelectedItem().toString();
+        KeyWordSeleted = LV_KeyWords.getSelectionModel().getSelectedItem();
         // reinitialiser le filtre
         if (!KeyWordSeleted.equals("all")) {
             for (File file : files) {
@@ -172,9 +176,9 @@ public class InterfaceLayoutController implements Initializable {
     private File[] rebuilidIndexArray(File [] fileTried){
         int j = 0;
         File[] fileTriedReBuild = new File[files.length];
-        for (int i = 0; i < fileTried.length; i++) {
-            if (fileTried[i] != null) {
-                fileTriedReBuild[j++]=fileTried[i];
+        for (File aFileTried : fileTried) {
+            if (aFileTried != null) {
+                fileTriedReBuild[j++] = aFileTried;
             }
         }
         return fileTriedReBuild;
@@ -201,7 +205,9 @@ public class InterfaceLayoutController implements Initializable {
             System.out.println("À l'emplacement " + i +" du tableau nous avons = " + files[i]);
             //File monFileAbsolue = new File(TF_chemin.getText()+"\\"+monFile.getName());
             if (files[i] != null) {
-                AllKeyWords(files[i]);
+                if (!MapKeyWords.containsValue("all")) {
+                    AllKeyWords(files[i]);
+                }
 
                 // pour construire le grid
                 column = (i % 2 == 0) ? 0 : 1;
@@ -214,7 +220,6 @@ public class InterfaceLayoutController implements Initializable {
                 Image I_image   = new Image(imageURI, 400, 400, true, true);
                 IV_imageView    = new ImageView(I_image);
                 IV_imageView.setId("img_" + i);
-
                 IV_imageView.setOnMouseClicked(new EventHandler<MouseEvent>() {
                     @Override
                     public void handle(MouseEvent event) {
@@ -226,24 +231,19 @@ public class InterfaceLayoutController implements Initializable {
                         } catch (ImageReadException e) {
                             e.printStackTrace();
                         }
-//                    IV_oneImg.setImage(node.getImage());
-//                    File monFile = new File(node.getImage().getUrl());
-//                    TF_nameImg.setText(monFile.getName());
                     }
                 });
                 // ajout chaque image dans une cellule
                 GP_imgGrid.add(IV_imageView,column,row);
             }
-//            IV_imageView.setOnMouseClicked(mouseEvent ->IV_oneImg.setImage(((ImageView) mouseEvent.getSource()).getImage()));
-
-
-
-        }
-        MapKeyWords.put("all","all");
-        for(Map.Entry<String, String> entry : MapKeyWords.entrySet()) {
-            LV_KeyWords.getItems().add(entry.getValue());
         }
 
+        if (!MapKeyWords.containsValue("all")) {
+            MapKeyWords.put("all", "all");
+            for (Map.Entry<String, String> entry : MapKeyWords.entrySet()) {
+                LV_KeyWords.getItems().add(entry.getValue());
+            }
+        }
         // permet d'ajouter l'object imgGrig a l'object imgScroll pour scroller en fonction du nombre d'image
         SP_imgScroll.setContent(GP_imgGrid);
         // afficher la grille
@@ -252,7 +252,6 @@ public class InterfaceLayoutController implements Initializable {
         GP_imgGrid.setHgap(6);
         GP_imgGrid.setVgap(6);
 //         ImageView photoView = (ImageView)imgGrid.lookup("#img_1");
-
 
         // parti loupe
         // récupére la premier image
@@ -275,7 +274,7 @@ public class InterfaceLayoutController implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
 //        System.out.print(location);
 //        System.out.print(resources);
-        m_model = new InterfaceModelProperty();
+//        m_model = new FocusPropertyChangeListener();
         TA_keyWord.setWrapText(true);
         TA_keyWordLoupe.setWrapText(true);
 //        TF_nameImg . textProperty () . bind ( TF_nameImgLoupe) ;
@@ -292,6 +291,7 @@ public class InterfaceLayoutController implements Initializable {
     private static String printTagValue(final JpegImageMetadata jpegMetadata,final TagInfo tagInfo) throws ImageReadException {
         final TiffField field = jpegMetadata.findEXIFValueWithExactMatch(tagInfo);
         String keyWords = "";
+        String keyWordDecode="";
         if ((MicrosoftTagConstants.EXIF_TAG_XPKEYWORDS == tagInfo) && (field == null)) {
             if (jpegMetadata.getPhotoshop() != null) {
                 for (int i = 0; i < jpegMetadata.getPhotoshop().getItems().size(); i++) {
@@ -299,9 +299,10 @@ public class InterfaceLayoutController implements Initializable {
                         keyWords += jpegMetadata.getPhotoshop().photoshopApp13Data.getRecords().get(i).getValue() + ";";
                     }
                 }
+                keyWordDecode = StringHelper.convertFromUTF8(keyWords);
             }
 
-            return  keyWords;
+            return  keyWordDecode;
         } else if (field == null) {
             return "N/A";
         } else {
@@ -358,7 +359,9 @@ public class InterfaceLayoutController implements Initializable {
                         IptcRecord iptcRecord = jpegMetadata.getPhotoshop().photoshopApp13Data.getRecords().get(i);
                         if (iptcRecord.getIptcTypeName() == "Keywords") {
                             if (iptcRecord.getValue() != null) {
-                                MapKeyWords.put(iptcRecord.getValue(), iptcRecord.getValue());
+
+                                String keyWordDecode = StringHelper.convertFromUTF8(iptcRecord.getValue());
+                                MapKeyWords.put(keyWordDecode, keyWordDecode);
                             }
                         }
                     }
@@ -368,9 +371,12 @@ public class InterfaceLayoutController implements Initializable {
                 // pour les image qui ne vienent pas de photoshop
                 for(int i = 0; i < field.getStringValue().split(";").length; i++) {
                     String keyWord = field.getStringValue().split(";")[i];
-                    MapKeyWords.put(keyWord,keyWord);
+                    String keyWordDecode = StringHelper.convertFromUTF8(keyWord);
+                    MapKeyWords.put(keyWordDecode,keyWordDecode);
                 }
             }
         }
     }
 }
+
+

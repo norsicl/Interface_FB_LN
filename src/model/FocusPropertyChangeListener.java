@@ -1,8 +1,21 @@
 package model;
 
-import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 
-public class InterfaceModelProperty {
+
+public class FocusPropertyChangeListener<String> implements ChangeListener<String> {
+
+
+}
+
+
+
+
+
+
+
+/*public class InterfaceModelProperty {
     private final SimpleStringProperty m_val ;
 
     public InterfaceModelProperty() {
@@ -15,4 +28,4 @@ public class InterfaceModelProperty {
     public void incValue () {
         m_val . set ( m_val . get () +1) ;
     }
-}
+}*/

@@ -1,9 +1,13 @@
+import helper.StringHelper;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
+import java.lang.String;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
 
 public class MainApp extends Application {
 
@@ -20,6 +24,10 @@ public class MainApp extends Application {
         primaryStage.setScene(scene);
 
         // pour récupérer un element de type Pane (conteneur)
+
+
+
+
 
 
         primaryStage.show();
