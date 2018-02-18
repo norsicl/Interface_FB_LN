@@ -22,14 +22,6 @@ public class MainApp extends Application {
         Scene scene = new Scene(root, 1200, 720);
         primaryStage.setTitle("Interface FB LN");
         primaryStage.setScene(scene);
-
-        // pour récupérer un element de type Pane (conteneur)
-
-
-
-
-
-
         primaryStage.show();
 
 

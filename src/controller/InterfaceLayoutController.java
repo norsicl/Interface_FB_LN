@@ -1,19 +1,10 @@
 package controller;
 import helper.StringHelper;
 import helper.WriteExifMetadata;
-import javafx.beans.InvalidationListener;
-import javafx.beans.Observable;
-import javafx.beans.WeakInvalidationListener;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
-
-import java.awt.event.MouseListener;
 import java.io.*;
 import java.net.URL;
 import java.util.*;
-
 import javafx.fxml.Initializable;
 import javafx.geometry.Pos;
 import javafx.scene.control.*;
@@ -27,38 +18,28 @@ import org.apache.commons.imaging.ImageReadException;
 import org.apache.commons.imaging.ImageWriteException;
 import org.apache.commons.imaging.Imaging;
 import org.apache.commons.imaging.common.IImageMetadata;
-import org.apache.commons.imaging.common.RationalNumber;
 import org.apache.commons.imaging.formats.jpeg.JpegImageMetadata;
-import org.apache.commons.imaging.formats.jpeg.exif.ExifRewriter;
 import org.apache.commons.imaging.formats.jpeg.iptc.IptcRecord;
 import org.apache.commons.imaging.formats.tiff.TiffField;
-import org.apache.commons.imaging.formats.tiff.TiffImageMetadata;
 import org.apache.commons.imaging.formats.tiff.constants.ExifTagConstants;
 import org.apache.commons.imaging.formats.tiff.constants.MicrosoftTagConstants;
 import org.apache.commons.imaging.formats.tiff.constants.TiffTagConstants;
 import org.apache.commons.imaging.formats.tiff.taginfos.TagInfo;
-import org.apache.commons.imaging.formats.tiff.write.TiffOutputDirectory;
-import org.apache.commons.imaging.formats.tiff.write.TiffOutputSet;
-import org.apache.commons.imaging.util.IoUtils;
 
 public class InterfaceLayoutController implements Initializable {
 
-
     @FXML
     private TabPane TP_root;
-
     @FXML
     private TextField TF_chemin;
     @FXML
     private TextField TF_nameImg;
-
     @FXML
     private ScrollPane SP_imgScroll;
     @FXML
     private ImageView IV_oneImg;
     @FXML
     private TextField TF_nameImgLoupe;
-
     @FXML
     private Label L_nomFichier;
     @FXML
@@ -85,33 +66,33 @@ public class InterfaceLayoutController implements Initializable {
     private Label L_focale;
     @FXML
     private Label L_diaphragme;
-
     @FXML
     private TextArea TA_keyWord;
-
     @FXML
     private TextArea TA_keyWordLoupe;
-
     @FXML
     private ListView<String> LV_KeyWords;
 
-    //    private FocusPropertyChangeListener m_model ;
-    public Map<String, String> MapKeyWords = new HashMap<>();
-    public GridPane GP_imgGrid;
-    public File[] files;
-    public String KeyWordsNotChanged;
+    private Map<String, String> MapKeyWords = new HashMap<>();
+    private GridPane GP_imgGrid;
+    private File[] files;
+    private String KeyWordsNotChanged;
+    private File monFile;
+    private File monFileAbsolue;
 
+    /**
+     * @throws IOException
+     * @throws ImageReadException
+     */
     @FXML
     public void handleOnMouseClickedBtnParcourirAction () throws IOException, ImageReadException {
-        System.out.print("test");
-        System.out.println(TF_chemin.getText());
         DirectoryChooser chooser = new DirectoryChooser();
         chooser.setInitialDirectory(new File("./src"));
         chooser.setTitle("Open File");
 //      chooser.setInitialDirectory(new File(System.getProperty("user.home")));
         System.out.print(TF_chemin.getText());
         System.out.print(chooser.getInitialDirectory());
-        if(TF_chemin.getText() == "./src" || TF_chemin.getText() == null) {
+        if(TF_chemin.getText().equals("./src") || TF_chemin.getText() == null) {
             chooser.setInitialDirectory(new File("./src"));
         }
         /*else{
@@ -121,12 +102,11 @@ public class InterfaceLayoutController implements Initializable {
 
         File file = chooser.showDialog(new Stage());
         if (file != null) {
-            if(TF_chemin.getText() != file.toString()){
+            if(!TF_chemin.getText().equals(file.toString())){
                 TF_chemin.setText(file.toString());
                 // tant que il n'y a pas de répétoire selectionné on ne donne pas droit au autre panel
                 TP_root.getTabs().get(1).setDisable(false);
                 TP_root.getTabs().get(2).setDisable(false);
-
 
                 // remettre a zero quand on recharge toute les images
                 if (MapKeyWords.containsValue("all")) {
@@ -134,42 +114,28 @@ public class InterfaceLayoutController implements Initializable {
                     LV_KeyWords.getItems().setAll("");
                 }
 
-
-//                TA_keyWord.focusedProperty().addListener((obs, oldVal, newVal) -> System.out.println(newVal ? "Focused" : "Unfocused"));
-                TA_keyWord.focusedProperty().addListener(new ChangeListener<Boolean>() {
-
-                    @Override
-                    public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
-//                        System.out.println("changed " + oldValue + "->" + newValue);
-                        // si false = unfocused et si le text n'est pas le meme qu'a l'origine
-                        if ((!newValue) && (!KeyWordsNotChanged.equals(TA_keyWord.getText()))) {
-//                            if (!KeyWordsNotChanged.equals(TA_keyWord.getText())){
-                            try {
-                                WriteKeyWord();
-                            } catch (ImageWriteException e) {
-                                e.printStackTrace();
-                            } catch (ImageReadException e) {
-                                e.printStackTrace();
-                            } catch (IOException e) {
-                                e.printStackTrace();
-                            }
-//                            }
-                        }
-                    }
-                });
                 BuildGridImages(TF_chemin.getText());
-
             }
         }
 
     }
 
+    /**
+     * @throws ImageWriteException
+     * @throws ImageReadException
+     * @throws IOException
+     */
     public void WriteKeyWord() throws ImageWriteException, ImageReadException, IOException {
-        System.out.println("changedfregferge ");
-        //new WriteExifMetadata().changeExifMetadata(new File("somefilename.jpg"), new File("result_file.jpg"));
-
+        System.out.println("WriteExif ");
+        if (!TA_keyWord.getText().equals("")) {
+            new WriteExifMetadata().WriteExif(monFileAbsolue,TA_keyWord.getText());
+        }
     }
 
+    /**
+     * @throws IOException
+     * @throws ImageReadException
+     */
     @FXML
     public void handleOnMouseClickedListViewLV_KeyWords() throws IOException, ImageReadException {
         String KeyWordSeleted;
@@ -200,11 +166,10 @@ public class InterfaceLayoutController implements Initializable {
         }
     }
 
-    @FXML
-    public void handleOnMouseClickedBtnSaveKeyWordAction(){
-
-    }
-
+    /**
+     * @param fileTried
+     * @return
+     */
     private File[] rebuilidIndexArray(File [] fileTried){
         int j = 0;
         File[] fileTriedReBuild = new File[files.length];
@@ -216,6 +181,11 @@ public class InterfaceLayoutController implements Initializable {
         return fileTriedReBuild;
     }
 
+    /**
+     * @param path
+     * @throws IOException
+     * @throws ImageReadException
+     */
     private void BuildGridImages(String path) throws IOException, ImageReadException {
         File repertoire = new File(path);
         files = repertoire.listFiles(jpgFileFilter);
@@ -224,18 +194,20 @@ public class InterfaceLayoutController implements Initializable {
         GP_imgGrid = new GridPane();
         GP_imgGrid.setAlignment(Pos.CENTER);
 
-        System.out.print(files);
         AjoutImage(files);
     }
 
-    public void AjoutImage(File[] files) throws IOException, ImageReadException  {
+    /**
+     * @param files
+     * @throws IOException
+     * @throws ImageReadException
+     */
+    private void AjoutImage(File[] files) throws IOException, ImageReadException  {
         int row = -1; // on part de -1 car l'indice est a 0
         int column = 0;
         ImageView IV_imageView;
         for(int i = 0; i < files.length; i++)
         {
-            System.out.println("À l'emplacement " + i +" du tableau nous avons = " + files[i]);
-            //File monFileAbsolue = new File(TF_chemin.getText()+"\\"+monFile.getName());
             if (files[i] != null) {
                 if (!MapKeyWords.containsValue("all")) {
                     AllKeyWords(files[i]);
@@ -245,26 +217,11 @@ public class InterfaceLayoutController implements Initializable {
                 column = (i % 2 == 0) ? 0 : 1;
                 row = (i % 2 != 1) ? row + 1 : row;
 
-                System.out.println("la ligne" + (row));
-                System.out.println("la colonne" + column);
-
                 String imageURI = new File(files[i].toString()).toURI().toString();
                 Image I_image   = new Image(imageURI, 400, 400, true, true);
                 IV_imageView    = new ImageView(I_image);
                 IV_imageView.setId("img_" + i);
-                IV_imageView.setOnMouseClicked(new EventHandler<MouseEvent>() {
-                    @Override
-                    public void handle(MouseEvent event) {
-                        ImageView node = (ImageView) event.getSource();
-                        try {
-                            seletedImg(node);
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        } catch (ImageReadException e) {
-                            e.printStackTrace();
-                        }
-                    }
-                });
+                IV_imageView.setOnMouseClicked(this::handOnMouseClickedVIImageAction);
                 // ajout chaque image dans une cellule
                 GP_imgGrid.add(IV_imageView,column,row);
             }
@@ -291,11 +248,7 @@ public class InterfaceLayoutController implements Initializable {
         seletedImg(nodeImage);
     }
 
-    private static final FilenameFilter jpgFileFilter = new FilenameFilter() {
-        public boolean accept(File dir, String name) {
-            return name.endsWith(".jpg");
-        }
-    };
+    private static final FilenameFilter jpgFileFilter = (dir, name) -> name.endsWith(".jpg");
 
     // ici les initalisation concernant le controlleur
     /**
@@ -322,20 +275,20 @@ public class InterfaceLayoutController implements Initializable {
      */
     private static String printTagValue(final JpegImageMetadata jpegMetadata,final TagInfo tagInfo) throws ImageReadException {
         final TiffField field = jpegMetadata.findEXIFValueWithExactMatch(tagInfo);
-        String keyWords = "";
+        StringBuilder keyWords = new StringBuilder();
         String keyWordDecode="";
-        if ((MicrosoftTagConstants.EXIF_TAG_XPKEYWORDS == tagInfo) && (field == null)) {
-            if (jpegMetadata.getPhotoshop() != null) {
+        if ((MicrosoftTagConstants.EXIF_TAG_XPKEYWORDS == tagInfo) && (null == field)) {
+            if (null != jpegMetadata.getPhotoshop()) {
                 for (int i = 0; i < jpegMetadata.getPhotoshop().getItems().size(); i++) {
-                    if (jpegMetadata.getPhotoshop().photoshopApp13Data.getRecords().get(i).getIptcTypeName() == "Keywords") {
-                        keyWords += jpegMetadata.getPhotoshop().photoshopApp13Data.getRecords().get(i).getValue() + ";";
+                    if (jpegMetadata.getPhotoshop().photoshopApp13Data.getRecords().get(i).getIptcTypeName().equals("Keywords")) {
+                        keyWords.append(jpegMetadata.getPhotoshop().photoshopApp13Data.getRecords().get(i).getValue()).append(";");
                     }
                 }
-                keyWordDecode = StringHelper.convertFromUTF8(keyWords);
+                keyWordDecode = StringHelper.convertFromUTF8(keyWords.toString());
             }
 
             return  keyWordDecode;
-        } else if (field == null) {
+        } else if (null == field) {
             return "N/A";
         } else {
             return  field.getValue().toString();
@@ -350,11 +303,19 @@ public class InterfaceLayoutController implements Initializable {
      */
     private void seletedImg(ImageView nodeImage) throws IOException, ImageReadException {
         IV_oneImg.setImage(nodeImage.getImage());
-        File monFile = new File(nodeImage.getImage().getUrl());
+        monFile = new File(nodeImage.getImage().getUrl());
+        monFileAbsolue = new File(TF_chemin.getText()+"\\"+monFile.getName());
         TF_nameImg.setText(monFile.getName());
         TF_nameImgLoupe.setText(monFile.getName());
 
-        File monFileAbsolue = new File(TF_chemin.getText()+"\\"+monFile.getName());
+        // pour ajouter un style a la selection
+        for (int i = 0; i < files.length; i++) {
+            if (null != files[i]) {
+                GP_imgGrid.getChildren().get(i).setStyle("");
+            }
+        }
+        nodeImage.setStyle("-fx-effect: innershadow(gaussian, #039ed3, 10, 1.0, 0, 0);");
+
         IImageMetadata metadata =  Imaging.getMetadata(monFileAbsolue);
         if (metadata instanceof JpegImageMetadata) {
             JpegImageMetadata jpegMetadata = (JpegImageMetadata) metadata;
@@ -376,6 +337,34 @@ public class InterfaceLayoutController implements Initializable {
             TA_keyWord.setText("");
             TA_keyWordLoupe.setText("");
         }
+
+        TA_keyWord.focusedProperty().addListener((observable, oldValue, newValue) -> {
+            // si false = unfocused et si le text n'est pas le meme qu'a l'origine
+            if ((!newValue) && (!KeyWordsNotChanged.equals(TA_keyWord.getText()))) {
+                try {
+                    WriteKeyWord();
+                    // mettre a jour la liste
+                    // remettre a zero quand on recharge toute les images
+                    if (MapKeyWords.containsValue("all")) {
+                        MapKeyWords.clear();
+                        LV_KeyWords.getItems().setAll("");
+                        for (File file : files) {
+                            if (null != file) {
+                                AllKeyWords(file);
+                            }
+                        }
+
+                        MapKeyWords.put("all", "all");
+                        for (Map.Entry<String, String> entry : MapKeyWords.entrySet()) {
+                            LV_KeyWords.getItems().add(entry.getValue());
+                        }
+
+                    }
+                } catch (ImageWriteException | ImageReadException | IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
     }
 
 
@@ -385,14 +374,13 @@ public class InterfaceLayoutController implements Initializable {
             JpegImageMetadata jpegMetadata = (JpegImageMetadata) metadata;
             TiffField field = jpegMetadata.findEXIFValueWithExactMatch(MicrosoftTagConstants.EXIF_TAG_XPKEYWORDS);
 
-            if (field == null) {
-                if (jpegMetadata.getPhotoshop() != null) {
+            if (null == field) {
+                if (null != jpegMetadata.getPhotoshop()) {
                     for(int i = 0; i < jpegMetadata.getPhotoshop().getItems().size(); i++)
                     {
                         IptcRecord iptcRecord = jpegMetadata.getPhotoshop().photoshopApp13Data.getRecords().get(i);
-                        if (iptcRecord.getIptcTypeName() == "Keywords") {
-                            if (iptcRecord.getValue() != null) {
-
+                        if (iptcRecord.getIptcTypeName().equals("Keywords")) {
+                            if (null != iptcRecord.getValue()) {
                                 String keyWordDecode = StringHelper.convertFromUTF8(iptcRecord.getValue());
                                 MapKeyWords.put(keyWordDecode, keyWordDecode);
                             }
@@ -404,10 +392,22 @@ public class InterfaceLayoutController implements Initializable {
                 // pour les image qui ne vienent pas de photoshop
                 for(int i = 0; i < field.getStringValue().split(";").length; i++) {
                     String keyWord = field.getStringValue().split(";")[i];
-                    String keyWordDecode = StringHelper.convertFromUTF8(keyWord);
-                    MapKeyWords.put(keyWordDecode,keyWordDecode);
+                    //String keyWordDecode = StringHelper.convertFromUTF8(keyWord);
+                    MapKeyWords.put(keyWord,keyWord);
                 }
             }
+        }
+    }
+
+    /**
+     * @param event
+     */
+    private void handOnMouseClickedVIImageAction(MouseEvent event) {
+        ImageView node = (ImageView) event.getSource();
+        try {
+            seletedImg(node);
+        } catch (IOException | ImageReadException e) {
+            e.printStackTrace();
         }
     }
 }
