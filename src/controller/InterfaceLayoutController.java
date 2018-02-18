@@ -1,8 +1,10 @@
 package controller;
 import helper.StringHelper;
+import helper.WriteExifMetadata;
 import javafx.beans.InvalidationListener;
 import javafx.beans.Observable;
 import javafx.beans.WeakInvalidationListener;
+import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -21,17 +23,23 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.image.Image ;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.Stage;
-import model.FocusPropertyChangeListener;
 import org.apache.commons.imaging.ImageReadException;
+import org.apache.commons.imaging.ImageWriteException;
 import org.apache.commons.imaging.Imaging;
 import org.apache.commons.imaging.common.IImageMetadata;
+import org.apache.commons.imaging.common.RationalNumber;
 import org.apache.commons.imaging.formats.jpeg.JpegImageMetadata;
+import org.apache.commons.imaging.formats.jpeg.exif.ExifRewriter;
 import org.apache.commons.imaging.formats.jpeg.iptc.IptcRecord;
 import org.apache.commons.imaging.formats.tiff.TiffField;
+import org.apache.commons.imaging.formats.tiff.TiffImageMetadata;
 import org.apache.commons.imaging.formats.tiff.constants.ExifTagConstants;
 import org.apache.commons.imaging.formats.tiff.constants.MicrosoftTagConstants;
 import org.apache.commons.imaging.formats.tiff.constants.TiffTagConstants;
 import org.apache.commons.imaging.formats.tiff.taginfos.TagInfo;
+import org.apache.commons.imaging.formats.tiff.write.TiffOutputDirectory;
+import org.apache.commons.imaging.formats.tiff.write.TiffOutputSet;
+import org.apache.commons.imaging.util.IoUtils;
 
 public class InterfaceLayoutController implements Initializable {
 
@@ -126,20 +134,39 @@ public class InterfaceLayoutController implements Initializable {
                     LV_KeyWords.getItems().setAll("");
                 }
 
-                KeyWordsNotChanged = TA_keyWord.getText();
-                //TA_keyWord.focusedProperty().addListener(notify());
-//                TA_keyWord.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
-//                    @Override
-//                    public void handle(MouseEvent event) {
-//
-//
-//                    }
-//                });
 
+//                TA_keyWord.focusedProperty().addListener((obs, oldVal, newVal) -> System.out.println(newVal ? "Focused" : "Unfocused"));
+                TA_keyWord.focusedProperty().addListener(new ChangeListener<Boolean>() {
+
+                    @Override
+                    public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
+//                        System.out.println("changed " + oldValue + "->" + newValue);
+                        // si false = unfocused et si le text n'est pas le meme qu'a l'origine
+                        if ((!newValue) && (!KeyWordsNotChanged.equals(TA_keyWord.getText()))) {
+//                            if (!KeyWordsNotChanged.equals(TA_keyWord.getText())){
+                            try {
+                                WriteKeyWord();
+                            } catch (ImageWriteException e) {
+                                e.printStackTrace();
+                            } catch (ImageReadException e) {
+                                e.printStackTrace();
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
+//                            }
+                        }
+                    }
+                });
                 BuildGridImages(TF_chemin.getText());
 
             }
         }
+
+    }
+
+    public void WriteKeyWord() throws ImageWriteException, ImageReadException, IOException {
+        System.out.println("changedfregferge ");
+        //new WriteExifMetadata().changeExifMetadata(new File("somefilename.jpg"), new File("result_file.jpg"));
 
     }
 
@@ -171,6 +198,11 @@ public class InterfaceLayoutController implements Initializable {
             GP_imgGrid.getChildren().clear();
             AjoutImage(files);
         }
+    }
+
+    @FXML
+    public void handleOnMouseClickedBtnSaveKeyWordAction(){
+
     }
 
     private File[] rebuilidIndexArray(File [] fileTried){
@@ -339,6 +371,7 @@ public class InterfaceLayoutController implements Initializable {
 
             TA_keyWord.setText(printTagValue(jpegMetadata,MicrosoftTagConstants.EXIF_TAG_XPKEYWORDS));
             TA_keyWordLoupe.setText(printTagValue(jpegMetadata,MicrosoftTagConstants.EXIF_TAG_XPKEYWORDS));
+            KeyWordsNotChanged = TA_keyWord.getText();
         } else {
             TA_keyWord.setText("");
             TA_keyWordLoupe.setText("");
