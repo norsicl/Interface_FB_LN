@@ -1,10 +1,14 @@
 package controller;
+import helper.LangageHelper;
 import helper.StringHelper;
 import helper.WriteExifMetadata;
+import helper.enumLangage;
 import javafx.fxml.FXML;
 import java.io.*;
 import java.net.URL;
 import java.util.*;
+
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.geometry.Pos;
 import javafx.scene.control.*;
@@ -12,6 +16,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.image.Image ;
+import javafx.scene.layout.Pane;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.Stage;
 import org.apache.commons.imaging.ImageReadException;
@@ -28,6 +33,51 @@ import org.apache.commons.imaging.formats.tiff.taginfos.TagInfo;
 
 public class InterfaceLayoutController implements Initializable {
 
+
+    @FXML
+    private Label L_sortBy;
+    @FXML
+    private Label L_keywords_bis;
+    @FXML
+    private Label L_filterByKeywords;
+    @FXML
+    private Label L_nameImage_bis;
+    @FXML
+    private Label L_I18N_author;
+    @FXML
+    private Label L_I18N_date;
+    @FXML
+    private Label L_I18N_lastUpdate;
+    @FXML
+    private Label L_I18N_weight;
+    @FXML
+    private Label L_I18N_nameFile;
+    @FXML
+    private Label L_I18N_size;
+    @FXML
+    private Label L_I18N_focalLength;
+    @FXML
+    private Label L_I18N_diaphragm;
+    @FXML
+    private Label L_I18N_speed;
+    @FXML
+    private Label L_I18N_lens;
+    @FXML
+    private Label L_I18N_model;
+    @FXML
+    private Label L_I18N_mark;
+    @FXML
+    private ComboBox BC_lastWeek;
+    @FXML
+    private ComboBox BC_date;
+    @FXML
+    private TextField L_search;
+    @FXML
+    private Label L_keywords;
+    @FXML
+    private Label L_nameImage;
+    @FXML
+    private Button BTN_parcourir;
     @FXML
     private TabPane TP_root;
     @FXML
@@ -72,6 +122,8 @@ public class InterfaceLayoutController implements Initializable {
     private TextArea TA_keyWordLoupe;
     @FXML
     private ListView<String> LV_KeyWords;
+    @FXML
+    private Pane P_root;
 
     private Map<String, String> MapKeyWords = new HashMap<>();
     private GridPane GP_imgGrid;
@@ -410,6 +462,69 @@ public class InterfaceLayoutController implements Initializable {
             e.printStackTrace();
         }
     }
+
+    /**
+     * @param mouseEvent
+     */
+    public void handleOnMouseClickedImgUSAction(MouseEvent mouseEvent) {
+
+        ResourceBundle rb = LangageHelper.loaderTraduction(enumLangage.EN_US.getLanguage(),enumLangage.EN_US.getCountry());
+        traductionReloader(rb);
+    }
+
+    /**
+     * @param mouseEvent
+     */
+    public void handleOnMouseClickedImgFRAction(MouseEvent mouseEvent) {
+
+        ResourceBundle rb = LangageHelper.loaderTraduction(Locale.FRANCE.getLanguage(),Locale.FRANCE.getCountry());
+        traductionReloader(rb);
+    }
+
+    /**
+     * @param mouseEvent
+     */
+    public void handleOnMouseClickedImgJAAction(MouseEvent mouseEvent) {
+
+        ResourceBundle rb = LangageHelper.loaderTraduction(Locale.SIMPLIFIED_CHINESE.getLanguage(),Locale.SIMPLIFIED_CHINESE.getCountry());
+        traductionReloader(rb);
+    }
+
+    private void traductionReloader(ResourceBundle rb) {
+        BTN_parcourir.setText(rb.getString("I18N.browse"));
+
+        // pour modifier le text des libellés des 3 onglets
+        TP_root.getTabs().get(0).setText(rb.getString("I18N.grille"));
+        TP_root.getTabs().get(1).setText(rb.getString("I18N.vue"));
+        TP_root.getTabs().get(2).setText(rb.getString("I18N.slideshow"));
+
+        L_I18N_author.setText(rb.getString("I18N.author"));
+        L_I18N_date.setText(rb.getString("I18N.date"));
+        L_I18N_lastUpdate.setText(rb.getString("I18N.lastUpdate"));
+        L_I18N_weight.setText(rb.getString("I18N.weight"));
+        L_I18N_nameFile.setText(rb.getString("I18N.nameFile"));
+        L_I18N_size.setText(rb.getString("I18N.size"));
+        L_I18N_focalLength.setText(rb.getString("I18N.focalLength"));
+        L_I18N_diaphragm.setText(rb.getString("I18N.diaphragm"));
+        L_I18N_speed.setText(rb.getString("I18N.speed"));
+        L_I18N_lens.setText(rb.getString("I18N.lens"));
+        L_I18N_model.setText(rb.getString("I18N.model"));
+        L_I18N_mark.setText(rb.getString("I18N.mark"));
+
+        BC_lastWeek.setPromptText(rb.getString("I18N.lastWeek"));
+        BC_date.setPromptText(rb.getString("I18N.date"));
+
+        L_search.setText(rb.getString("I18N.search"));
+
+        L_keywords.setText(rb.getString("I18N.keywords"));
+        L_nameImage.setText(rb.getString("I18N.nameImage"));
+
+        L_keywords_bis.setText(rb.getString("I18N.keywords"));
+        L_filterByKeywords.setText(rb.getString("I18N.filterByKeywords"));
+        L_nameImage_bis.setText(rb.getString("I18N.nameImage"));
+        L_sortBy.setText(rb.getString("I18N.sortBy"));
+    }
+
 }
 
 
