@@ -1,0 +1,1 @@
+packageSearchIndex = [{"l":"controller"},{"l":"helper"}]
