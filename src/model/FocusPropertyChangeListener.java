@@ -15,12 +15,6 @@ package model;
 //    }
 //}
 
-
-
-
-
-
-
 /*public class InterfaceModelProperty {
     private final SimpleStringProperty m_val ;
 
@@ -35,35 +29,6 @@ package model;
         m_val . set ( m_val . get () +1) ;
     }
 }*/
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 // todo : a garder memo

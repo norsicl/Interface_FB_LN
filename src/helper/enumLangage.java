@@ -1,7 +1,7 @@
 package helper;
 
 /**
- * @class enumLangage permet de choisir plus facilement la langue pour la traduction
+ * @description enumLangage permet de choisir plus facilement la langue pour la traduction
  * todo: plus du tout utile car une classe équivalente existe en JAVA par défaut
  */
 public enum enumLangage {

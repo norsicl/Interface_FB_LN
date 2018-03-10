@@ -18,6 +18,9 @@ import org.apache.commons.imaging.formats.tiff.constants.*;
 import org.apache.commons.imaging.formats.tiff.write.TiffOutputDirectory;
 import org.apache.commons.imaging.formats.tiff.write.TiffOutputSet;
 
+/**
+ * @description WriteExifMetadata permet de comme son nom l'indique d'aider sur l'écriture de métadata d'une image
+ */
 public class WriteExifMetadata {
 
     /**
