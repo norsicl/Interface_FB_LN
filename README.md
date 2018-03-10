@@ -4,7 +4,8 @@
 [github] (https://github.com/norsicl/Interface_FB_LN "link to github")
 
 L'application est disponible directement en .jar dans le dossier racine appelé : "Interface_FB_LN.jar"
-La javadoc est disponible
+
+La javadoc est disponible dans le dossier javadoc
 
 # Introduction
 Nous avons voulu faire une interface se rapprochant le plus de notre prototypage qui nous semblait claire et compréhensible par des néophytes.

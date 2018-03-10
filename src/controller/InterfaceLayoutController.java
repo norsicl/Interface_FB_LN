@@ -35,92 +35,267 @@ import org.apache.commons.imaging.formats.tiff.taginfos.TagInfo;
  */
 public class InterfaceLayoutController implements Initializable {
 
+    /**
+     * Element graphique Label : trié par
+     */
     @FXML
     private Label L_sortBy;
+
+    /**
+     * Element graphique Label : mots clés
+     */
     @FXML
     private Label L_keywords_bis;
+
+    /**
+     * Element graphique Label : filtré par mots clés
+     */
     @FXML
     private Label L_filterByKeywords;
+
+    /**
+     * Element graphique Label : nom de l'image
+     */
     @FXML
     private Label L_nameImage_bis;
+
+    /**
+     * Element graphique Label : nom de l'auteur de l'image
+     */
     @FXML
     private Label L_I18N_author;
+
+    /**
+     * Element graphique Label : date de l'image
+     */
     @FXML
     private Label L_I18N_date;
+
+    /**
+     * Element graphique Label : date de modification
+     */
     @FXML
     private Label L_I18N_lastUpdate;
+
+    /**
+     * Element graphique Label : poid de l'image
+     */
     @FXML
     private Label L_I18N_weight;
+
+    /**
+     * Element graphique Label : nom de l'image
+     */
     @FXML
     private Label L_I18N_nameFile;
+
+    /**
+     * Element graphique Label : taille de l'image
+     */
     @FXML
     private Label L_I18N_size;
+
+    /**
+     * Element graphique Label : focal de l'appareil
+     */
     @FXML
     private Label L_I18N_focalLength;
+
+    /**
+     * Element graphique Label : diaphragme de l'appareil
+     */
     @FXML
     private Label L_I18N_diaphragm;
+
+    /**
+     * Element graphique Label : vitesse de prise
+     */
     @FXML
     private Label L_I18N_speed;
+
+    /**
+     * Element graphique Label : Objectif de l'appareil
+     */
     @FXML
     private Label L_I18N_lens;
+
+    /**
+     * Element graphique Label : modèle de l'appareil
+     */
     @FXML
     private Label L_I18N_model;
+
+    /**
+     * Element graphique Label : marque de l'appareil
+     */
     @FXML
     private Label L_I18N_mark;
+
+    /**
+     * Element graphique ComboBox : filtre photo du week-end dernier
+     */
     @FXML
     private ComboBox BC_lastWeek;
+
+    /**
+     * Element graphique ComboBox : filtre photo du week-end dernier
+     */
     @FXML
     private ComboBox BC_date;
+
+    /**
+     * Element graphique TextField : recherche d'image par le champ de saisie
+     */
     @FXML
     private TextField L_search;
+
+    /**
+     * Element graphique Label : mots clés
+     */
     @FXML
     private Label L_keywords;
+
+    /**
+     * Element graphique Label : nom de l'image
+     */
     @FXML
     private Label L_nameImage;
+
+    /**
+     * Element graphique Button : text du boutton parcourir
+     */
     @FXML
     private Button BTN_parcourir;
+
+    /**
+     * Element graphique TabPane : pane layout
+     */
     @FXML
     private TabPane TP_root;
+
+    /**
+     * Element graphique TextField : champ de saisie du chemin
+     */
     @FXML
     private TextField TF_chemin;
+
+    /**
+     * Element graphique TextField : champ de saisie de l'image
+     */
     @FXML
     private TextField TF_nameImg;
+
+    /**
+     * Element graphique ScrollPane : scroll bar pour la liste d'image
+     */
     @FXML
     private ScrollPane SP_imgScroll;
+
+    /**
+     * Element graphique ImageView : image de le l'onglet vue/loupe
+     */
     @FXML
     private ImageView IV_oneImg;
+
+    /**
+     * Element graphique TextField : champ de saisie - nom de l'image
+     */
     @FXML
     private TextField TF_nameImgLoupe;
+
+    /**
+     * Element graphique Label : text nom de l'image
+     */
     @FXML
     private Label L_nomFichier;
+
+    /**
+     * Element graphique Label : text dimension de l'image
+     */
     @FXML
     private Label L_dimension;
+
+    /**
+     * Element graphique Label : text poids de l'image
+     */
     @FXML
     private Label L_poidsPhoto;
+
+    /**
+     * Element graphique Label : text date derniere modification de l'image
+     */
     @FXML
     private Label L_derniereModif;
+
+    /**
+     * Element graphique Label : text date derniere modification de l'image
+     */
     @FXML
     private Label L_date;
+
+    /**
+     * Element graphique Label : text auteur de l'image
+     */
     @FXML
     private Label L_auteur;
+
+    /**
+     * Element graphique Label : text ISO de l'image
+     */
     @FXML
     private Label L_iso;
+
+    /**
+     * Element graphique Label : text marque de l'image
+     */
     @FXML
     private Label L_marque;
+
+    /**
+     * Element graphique Label : text modèle de l'image
+     */
     @FXML
     private Label L_modele;
+
+    /**
+     * Element graphique Label : text objectif de l'appareil
+     */
     @FXML
     private Label L_objectif;
+
+    /**
+     * Element graphique Label : text vitesse de l'appareil
+     */
     @FXML
     private Label L_vitesse;
+
+    /**
+     * Element graphique Label : text focale de l'appareil
+     */
     @FXML
     private Label L_focale;
+
+    /**
+     * Element graphique Label : text diaphrame de l'appareil
+     */
     @FXML
     private Label L_diaphragme;
+
+    /**
+     * Element graphique TextArea : mot clé
+     */
     @FXML
     private TextArea TA_keyWord;
+
+    /**
+     * Element graphique TextArea : mot clé
+     */
     @FXML
     private TextArea TA_keyWordLoupe;
+
+    /**
+     * Element graphique ListView<String>  : liste mots clés
+     */
     @FXML
     private ListView<String> LV_KeyWords;
 
@@ -530,8 +705,8 @@ public class InterfaceLayoutController implements Initializable {
     }
 
     /**
-     * @method handleOnMouseClickedImgUSAction
      * Evenement click pour la traduction de l'application (chinois)
+     * @method handleOnMouseClickedImgUSAction
      */
     public void handleOnMouseClickedImgJAAction() {
         ResourceBundle rb = LangageHelper.loaderTraduction(Locale.SIMPLIFIED_CHINESE.getLanguage(),Locale.SIMPLIFIED_CHINESE.getCountry());
