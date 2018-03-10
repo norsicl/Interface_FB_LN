@@ -13,16 +13,21 @@ import org.apache.commons.imaging.Imaging;
 import org.apache.commons.imaging.common.IImageMetadata;
 import org.apache.commons.imaging.formats.jpeg.JpegImageMetadata;
 import org.apache.commons.imaging.formats.jpeg.exif.ExifRewriter;
-import org.apache.commons.imaging.formats.jpeg.iptc.PhotoshopApp13Data;
 import org.apache.commons.imaging.formats.tiff.TiffImageMetadata;
 import org.apache.commons.imaging.formats.tiff.constants.*;
 import org.apache.commons.imaging.formats.tiff.write.TiffOutputDirectory;
 import org.apache.commons.imaging.formats.tiff.write.TiffOutputSet;
 
-
 public class WriteExifMetadata {
 
-
+    /**
+     * @method WriteExif permet d'écrire de (type Exif) des mots clés dans l'image
+     * @param imageFile
+     * @param KeyWordsImage
+     * @throws ImageWriteException
+     * @throws ImageReadException
+     * @throws IOException
+     */
     public void WriteExif(File imageFile,String KeyWordsImage) throws ImageWriteException, ImageReadException, IOException {
         String imageString = imageFile.getName();
         String destFileString = FileHelper.getFilenameWithSuffix(imageString, "_TEMP");
@@ -32,19 +37,15 @@ public class WriteExifMetadata {
 
 
     /**
-     * This example illustrates how to add/update EXIF metadata in a JPEG file.
-     *
-     * @param jpegImageFile
-     *            A source image file.
-     * @param dst
-     *            The output file.
-     * @param KeyWordsImage
-     *                      String list mot clé de l'image
+     * @method changeExifMetadata  ajouter / mettre à jour les métadonnées EXIF ​​dans un fichier JPEG.
+     * @param jpegImageFile A source image file.
+     * @param dst The output file.
+     * @param KeyWordsImage String liste mot clé de l'image
      * @throws IOException
      * @throws ImageReadException
      * @throws ImageWriteException
      */
-    public void changeExifMetadata(final File jpegImageFile, final File dst,String KeyWordsImage) throws IOException, ImageReadException, ImageWriteException {
+    private void changeExifMetadata(final File jpegImageFile, final File dst, String KeyWordsImage) throws IOException, ImageReadException, ImageWriteException {
         OutputStream os = null;
         boolean canThrow = false;
         try {
@@ -83,6 +84,7 @@ public class WriteExifMetadata {
             os = new FileOutputStream(dst);
             os = new BufferedOutputStream(os);
 
+            // mettre a jour les mot clés de l'image dans l'image d'origine
             new ExifRewriter().updateExifMetadataLossless(jpegImageFile, os,outputSet);
             jpegImageFile.delete();
             dst.renameTo(jpegImageFile);

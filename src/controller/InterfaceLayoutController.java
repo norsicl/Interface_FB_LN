@@ -1,4 +1,5 @@
 package controller;
+
 import helper.LangageHelper;
 import helper.StringHelper;
 import helper.WriteExifMetadata;
@@ -7,8 +8,6 @@ import javafx.fxml.FXML;
 import java.io.*;
 import java.net.URL;
 import java.util.*;
-
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.geometry.Pos;
 import javafx.scene.control.*;
@@ -32,7 +31,6 @@ import org.apache.commons.imaging.formats.tiff.constants.TiffTagConstants;
 import org.apache.commons.imaging.formats.tiff.taginfos.TagInfo;
 
 public class InterfaceLayoutController implements Initializable {
-
 
     @FXML
     private Label L_sortBy;
@@ -122,28 +120,47 @@ public class InterfaceLayoutController implements Initializable {
     private TextArea TA_keyWordLoupe;
     @FXML
     private ListView<String> LV_KeyWords;
-    @FXML
-    private Pane P_root;
 
+    /**
+     * @variable  Map<String, String> MapKeyWords : list de mots clés contenue dans toutes les images
+     */
     private Map<String, String> MapKeyWords = new HashMap<>();
+    /**
+     * @variable  GridPane GP_imgGrid : element GridPane créer dynamiquement
+     */
     private GridPane GP_imgGrid;
+    /**
+     * @variable  File[] files : tableau de fichier d'images
+     */
     private File[] files;
+
+    /**
+     * @variable String KeyWordsNotChanged : chaine de mots clés contenue dans l'image d'origine
+     */
     private String KeyWordsNotChanged;
+
+    /**
+     * @variable File monFile : fichier d'image
+     */
     private File monFile;
+    /**
+     * @variable File monFileAbsolue : fichier du chemin absolue de l'image selectionné
+     */
     private File monFileAbsolue;
 
     /**
+     * @method handleOnMouseClickedBtnParcourirAction evenement click sur le bouton parcourir pour récupérer la liste d'image
      * @throws IOException
      * @throws ImageReadException
      */
     @FXML
-    public void handleOnMouseClickedBtnParcourirAction () throws IOException, ImageReadException {
+    private void handleOnMouseClickedBtnParcourirAction () throws IOException, ImageReadException {
         DirectoryChooser chooser = new DirectoryChooser();
         chooser.setInitialDirectory(new File("./src"));
         chooser.setTitle("Open File");
 //      chooser.setInitialDirectory(new File(System.getProperty("user.home")));
-        System.out.print(TF_chemin.getText());
-        System.out.print(chooser.getInitialDirectory());
+//        System.out.print(TF_chemin.getText());
+//        System.out.print(chooser.getInitialDirectory());
         if(TF_chemin.getText().equals("./src") || TF_chemin.getText() == null) {
             chooser.setInitialDirectory(new File("./src"));
         }
@@ -165,7 +182,7 @@ public class InterfaceLayoutController implements Initializable {
                     MapKeyWords.clear();
                     LV_KeyWords.getItems().setAll("");
                 }
-
+                // construction du grid pane
                 BuildGridImages(TF_chemin.getText());
             }
         }
@@ -173,25 +190,26 @@ public class InterfaceLayoutController implements Initializable {
     }
 
     /**
+     * @method WriteKeyWord écrire un mot clé dans l'image selectionné
      * @throws ImageWriteException
      * @throws ImageReadException
      * @throws IOException
      */
-    public void WriteKeyWord() throws ImageWriteException, ImageReadException, IOException {
-        System.out.println("WriteExif ");
+    private void WriteKeyWord() throws ImageWriteException, ImageReadException, IOException {
         if (!TA_keyWord.getText().equals("")) {
             new WriteExifMetadata().WriteExif(monFileAbsolue,TA_keyWord.getText());
         }
     }
 
     /**
+     * @method handleOnMouseClickedListViewLV_KeyWords evenement click un mot clé pour filter la liste des images affichés
      * @throws IOException
      * @throws ImageReadException
      */
     @FXML
     public void handleOnMouseClickedListViewLV_KeyWords() throws IOException, ImageReadException {
         String KeyWordSeleted;
-        int counter=0;
+        int counter      = 0;
         File[] fileTried = new File[files.length];
         KeyWordSeleted = LV_KeyWords.getSelectionModel().getSelectedItem();
         // reinitialiser le filtre
@@ -219,11 +237,12 @@ public class InterfaceLayoutController implements Initializable {
     }
 
     /**
+     * @method rebuilidIndexArray reconstruction du tableau (réinitialisation de l'index)
      * @param fileTried
-     * @return
+     * @return File[] tableau de fichier d'image
      */
     private File[] rebuilidIndexArray(File [] fileTried){
-        int j = 0;
+        int j                   = 0;
         File[] fileTriedReBuild = new File[files.length];
         for (File aFileTried : fileTried) {
             if (aFileTried != null) {
@@ -234,29 +253,31 @@ public class InterfaceLayoutController implements Initializable {
     }
 
     /**
-     * @param path
+     * @method BuildGridImages construction de element gridPane contenant les images
+     * @param path de type String : chemin du dossier contenant les images
      * @throws IOException
      * @throws ImageReadException
      */
     private void BuildGridImages(String path) throws IOException, ImageReadException {
         File repertoire = new File(path);
-        files = repertoire.listFiles(jpgFileFilter);
+        files           = repertoire.listFiles(jpgFileFilter);
 
         // création de la grille sur 2 colonne
-        GP_imgGrid = new GridPane();
+        GP_imgGrid      = new GridPane();
         GP_imgGrid.setAlignment(Pos.CENTER);
 
         AjoutImage(files);
     }
 
     /**
-     * @param files
+     * @method AjoutImage construction de element gridPane contenant les images
+     * @param files de type File[] tableau de fichier d'image
      * @throws IOException
      * @throws ImageReadException
      */
     private void AjoutImage(File[] files) throws IOException, ImageReadException  {
-        int row = -1; // on part de -1 car l'indice est a 0
-        int column = 0;
+        int row     = -1; // on part de -1 car l'indice est a 0
+        int column  = 0;
         ImageView IV_imageView;
         for(int i = 0; i < files.length; i++)
         {
@@ -300,35 +321,42 @@ public class InterfaceLayoutController implements Initializable {
         seletedImg(nodeImage);
     }
 
+    /**
+     * @method jpgFileFilter pour récupérer que les images d'extension .jpg
+     * @param dir
+     * @param name
+     */
     private static final FilenameFilter jpgFileFilter = (dir, name) -> name.endsWith(".jpg");
 
-    // ici les initalisation concernant le controlleur
+
     /**
      * Initializes the controller class . This method is automatically called
      * after the fxml file has been loaded .
+     * @method initialize ici les initalisation concernant le controlleur
+     * @param location de type URL
+     * @param resources de type ResourceBundle
      */
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-//        System.out.print(location);
-//        System.out.print(resources);
-//        m_model = new FocusPropertyChangeListener();
+//      System.out.print(location);
+//      System.out.print(resources);
+//      m_model = new FocusPropertyChangeListener();
         TA_keyWord.setWrapText(true);
         TA_keyWordLoupe.setWrapText(true);
-//        TF_nameImg . textProperty () . bind ( TF_nameImgLoupe) ;
-
-
+//      TF_nameImg . textProperty () . bind ( TF_nameImgLoupe) ;
     }
 
     /**
-     * @param jpegMetadata
-     * @param tagInfo
-     * @return
+     * @method printTagValue affiche le métadata de/le tag de l'image en fonction du tagInfo demandé
+     * @param jpegMetadata de type JpegImageMetadata
+     * @param tagInfo de type TagInfo : l'info voulu dans l'image
+     * @return String tag de l'image demandé
      * @throws ImageReadException
      */
     private static String printTagValue(final JpegImageMetadata jpegMetadata,final TagInfo tagInfo) throws ImageReadException {
-        final TiffField field = jpegMetadata.findEXIFValueWithExactMatch(tagInfo);
+        final TiffField field  = jpegMetadata.findEXIFValueWithExactMatch(tagInfo);
         StringBuilder keyWords = new StringBuilder();
-        String keyWordDecode="";
+        String keyWordDecode   ="";
         if ((MicrosoftTagConstants.EXIF_TAG_XPKEYWORDS == tagInfo) && (null == field)) {
             if (null != jpegMetadata.getPhotoshop()) {
                 for (int i = 0; i < jpegMetadata.getPhotoshop().getItems().size(); i++) {
@@ -338,7 +366,6 @@ public class InterfaceLayoutController implements Initializable {
                 }
                 keyWordDecode = StringHelper.convertFromUTF8(keyWords.toString());
             }
-
             return  keyWordDecode;
         } else if (null == field) {
             return "N/A";
@@ -349,23 +376,25 @@ public class InterfaceLayoutController implements Initializable {
 
 
     /**
-     * @param nodeImage
+     * @method seletedImg selectionne une image dans le grid pane & affiche les différentes informations dans l'application
+     * @param nodeImage de type ImageView
      * @throws IOException
      * @throws ImageReadException
      */
     private void seletedImg(ImageView nodeImage) throws IOException, ImageReadException {
         IV_oneImg.setImage(nodeImage.getImage());
-        monFile = new File(nodeImage.getImage().getUrl());
+        monFile        = new File(nodeImage.getImage().getUrl());
         monFileAbsolue = new File(TF_chemin.getText()+"\\"+monFile.getName());
         TF_nameImg.setText(monFile.getName());
         TF_nameImgLoupe.setText(monFile.getName());
 
         // pour ajouter un style a la selection
-        for (int i = 0; i < files.length; i++) {
+        for (int i = 0; i < GP_imgGrid.getChildren().size()-1; i++) {
             if (null != files[i]) {
                 GP_imgGrid.getChildren().get(i).setStyle("");
             }
         }
+        // met un encadré bleu autour de l'image selectionné
         nodeImage.setStyle("-fx-effect: innershadow(gaussian, #039ed3, 10, 1.0, 0, 0);");
 
         IImageMetadata metadata =  Imaging.getMetadata(monFileAbsolue);
@@ -390,6 +419,7 @@ public class InterfaceLayoutController implements Initializable {
             TA_keyWordLoupe.setText("");
         }
 
+        // ajout evenement sur le focus du champs de saisie pour les mots clés
         TA_keyWord.focusedProperty().addListener((observable, oldValue, newValue) -> {
             // si false = unfocused et si le text n'est pas le meme qu'a l'origine
             if ((!newValue) && (!KeyWordsNotChanged.equals(TA_keyWord.getText()))) {
@@ -405,12 +435,10 @@ public class InterfaceLayoutController implements Initializable {
                                 AllKeyWords(file);
                             }
                         }
-
                         MapKeyWords.put("all", "all");
                         for (Map.Entry<String, String> entry : MapKeyWords.entrySet()) {
                             LV_KeyWords.getItems().add(entry.getValue());
                         }
-
                     }
                 } catch (ImageWriteException | ImageReadException | IOException e) {
                     e.printStackTrace();
@@ -420,12 +448,17 @@ public class InterfaceLayoutController implements Initializable {
     }
 
 
+    /**
+     * @method AllKeyWords création de la map contenant la liste de mots clés
+     * @param monFileAbsolue de type File
+     * @throws IOException
+     * @throws ImageReadException
+     */
     private void AllKeyWords(File monFileAbsolue) throws IOException, ImageReadException {
         IImageMetadata metadata =  Imaging.getMetadata(monFileAbsolue);
         if (metadata instanceof JpegImageMetadata) {
             JpegImageMetadata jpegMetadata = (JpegImageMetadata) metadata;
-            TiffField field = jpegMetadata.findEXIFValueWithExactMatch(MicrosoftTagConstants.EXIF_TAG_XPKEYWORDS);
-
+            TiffField field                = jpegMetadata.findEXIFValueWithExactMatch(MicrosoftTagConstants.EXIF_TAG_XPKEYWORDS);
             if (null == field) {
                 if (null != jpegMetadata.getPhotoshop()) {
                     for(int i = 0; i < jpegMetadata.getPhotoshop().getItems().size(); i++)
@@ -433,13 +466,14 @@ public class InterfaceLayoutController implements Initializable {
                         IptcRecord iptcRecord = jpegMetadata.getPhotoshop().photoshopApp13Data.getRecords().get(i);
                         if (iptcRecord.getIptcTypeName().equals("Keywords")) {
                             if (null != iptcRecord.getValue()) {
+                                // pour gérer le bon format UTF8 du mot clé contenu dans l'image
                                 String keyWordDecode = StringHelper.convertFromUTF8(iptcRecord.getValue());
+                                // ajout du mot clé dans la map
                                 MapKeyWords.put(keyWordDecode, keyWordDecode);
                             }
                         }
                     }
                 }
-
             } else {
                 // pour les image qui ne vienent pas de photoshop
                 for(int i = 0; i < field.getStringValue().split(";").length; i++) {
@@ -452,7 +486,8 @@ public class InterfaceLayoutController implements Initializable {
     }
 
     /**
-     * @param event
+     * @method handOnMouseClickedVIImageAction evenement click pour la selection de l'image
+     * @param event de type MouseEvent permetant de récupérer le node clické et récupérer l'image selectionné
      */
     private void handOnMouseClickedVIImageAction(MouseEvent event) {
         ImageView node = (ImageView) event.getSource();
@@ -464,32 +499,34 @@ public class InterfaceLayoutController implements Initializable {
     }
 
     /**
-     * @param mouseEvent
+     * @method handleOnMouseClickedImgUSAction evenement click pour la traduction de l'application (Américain)
      */
-    public void handleOnMouseClickedImgUSAction(MouseEvent mouseEvent) {
-
+    public void handleOnMouseClickedImgUSAction() {
         ResourceBundle rb = LangageHelper.loaderTraduction(enumLangage.EN_US.getLanguage(),enumLangage.EN_US.getCountry());
         traductionReloader(rb);
     }
 
     /**
-     * @param mouseEvent
+     * @method handleOnMouseClickedImgUSAction evenement click pour la traduction de l'application (Français)
      */
-    public void handleOnMouseClickedImgFRAction(MouseEvent mouseEvent) {
-
+    public void handleOnMouseClickedImgFRAction() {
         ResourceBundle rb = LangageHelper.loaderTraduction(Locale.FRANCE.getLanguage(),Locale.FRANCE.getCountry());
         traductionReloader(rb);
     }
 
     /**
-     * @param mouseEvent
+     * @method handleOnMouseClickedImgUSAction evenement click pour la traduction de l'application (chinois)
      */
-    public void handleOnMouseClickedImgJAAction(MouseEvent mouseEvent) {
-
+    public void handleOnMouseClickedImgJAAction() {
         ResourceBundle rb = LangageHelper.loaderTraduction(Locale.SIMPLIFIED_CHINESE.getLanguage(),Locale.SIMPLIFIED_CHINESE.getCountry());
         traductionReloader(rb);
     }
 
+    /**
+     * @method traductionReloader permet de modifier le text en fonction de la langue voulue
+     *         de tout les Text contenue dans l'application
+     * @param rb de type ResourceBundle
+     */
     private void traductionReloader(ResourceBundle rb) {
         BTN_parcourir.setText(rb.getString("I18N.browse"));
 

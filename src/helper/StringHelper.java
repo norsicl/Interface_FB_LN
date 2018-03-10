@@ -1,8 +1,15 @@
 package helper;
 
+/**
+ * @class StringHelper permet de comme son nom l'indique d'aider sur l'object String
+ */
 public class StringHelper {
 
-    // convert from UTF-8 -> internal Java String format
+    /**
+     * @method convertFromUTF8 permet de convertir une chaine de caractere du format "ISO-8859-15" en UTF-8
+     * @param s de type String
+     * @return String
+     */
     public static String convertFromUTF8(String s) {
         String out = null;
         try {
@@ -13,7 +20,11 @@ public class StringHelper {
         return out;
     }
 
-    // convert from internal Java String format -> UTF-8
+    /**
+     * @method convertFromUTF8 permet de convertir une chaine de caractere du format UTF-8 en "ISO-8859-15"
+     * @param s de type String
+     * @return String
+     */
     public static String convertToUTF8(String s) {
         String out = null;
         try {
@@ -23,6 +34,4 @@ public class StringHelper {
         }
         return out;
     }
-
-
 }

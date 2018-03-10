@@ -1,16 +1,19 @@
 package helper;
 
+/**
+ * @class FileHelper permet de comme son nom l'indique d'aider sur l'object File
+ */
 public class FileHelper {
 
     /**
-     * @param original
-     * @param suffix
-     * @return
+     * @method getFilenameWithSuffix permet de retourner le nom de l'image avec son extension
+     * @param original de type String
+     * @param suffix de type String
+     * @return String
      */
     public static String getFilenameWithSuffix(String original, String suffix) {
         String name = original.split("[.]")[0];
         String extension = original.split("[.]")[1];
-
         return name + suffix + "." + extension;
     }
 }
