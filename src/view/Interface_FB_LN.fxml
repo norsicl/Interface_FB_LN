@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.effect.*?>
 <?import javafx.scene.canvas.*?>
 <?import javafx.scene.media.*?>
 <?import javafx.scene.image.*?>
@@ -13,66 +14,74 @@
 
 <Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.InterfaceLayoutController">
    <children>
-      <Button layoutX="227.0" layoutY="649.0" mnemonicParsing="false" onMouseClicked="#handleOnMouseClickedBtnParcourirAction" text="Parcourir" />
+      <Button  fx:id="BTN_parcourir" layoutX="227.0" layoutY="649.0" mnemonicParsing="false" onMouseClicked="#handleOnMouseClickedBtnParcourirAction" text="%I18N.browse" />
       <Separator layoutX="2.0" layoutY="115.0" prefWidth="1200.0" />
       <Separator layoutY="619.0" prefWidth="1200.0" />
       <TextField fx:id="TF_chemin" layoutX="24.0" layoutY="649.0" />
       <TabPane fx:id="TP_root" prefHeight="619.0" prefWidth="1200.0" tabClosingPolicy="UNAVAILABLE">
         <tabs>
-          <Tab text="Grille">
+          <Tab text="%I18N.grille">
                <content>
                   <Pane prefHeight="580.0" prefWidth="1218.0">
                      <children>
-                        <Label layoutX="491.0" layoutY="25.0" text="Trier par" />
-                        <Label layoutX="959.0" layoutY="106.0" text="Nom de l'image" />
-                        <Label layoutX="965.0" layoutY="188.0" text="Mot clés" />
-                        <TextField layoutX="962.0" layoutY="535.0" prefHeight="31.0" prefWidth="206.0" text="Recherche" />
-                        <TextArea fx:id="TA_keyWord" layoutX="960.0" layoutY="224.0" prefHeight="119.0" prefWidth="207.0" onBlur=""/>
+                        <Label fx:id="L_sortBy" layoutX="491.0" layoutY="25.0" text="%I18N.sortBy" />
+                        <Label fx:id="L_nameImage" layoutX="959.0" layoutY="106.0" text="%I18N.nameImage" />
+                        <Label fx:id="L_keywords" layoutX="965.0" layoutY="188.0" text="%I18N.keywords" />
+                        <TextField fx:id="L_search" layoutX="962.0" layoutY="535.0" prefHeight="31.0" prefWidth="206.0" text="%I18N.search" />
+                        <TextArea fx:id="TA_keyWord" layoutX="960.0" layoutY="224.0" prefHeight="119.0" prefWidth="207.0" />
                         <TextField fx:id="TF_nameImg" layoutX="960.0" layoutY="144.0" prefHeight="31.0" prefWidth="208.0" />
-                        <ComboBox layoutX="570.0" layoutY="20.0" prefWidth="150.0" promptText="Date" />
-                        <ComboBox layoutX="725.0" layoutY="20.0" prefHeight="31.0" prefWidth="200.0" promptText="La dernière semaine" />
+                        <ComboBox fx:id="BC_date" layoutX="570.0" layoutY="20.0" prefWidth="150.0" promptText="%I18N.date" />
+                        <ComboBox fx:id="BC_lastWeek" layoutX="725.0" layoutY="20.0" prefHeight="31.0" prefWidth="200.0" promptText="%I18N.lastWeek" />
                         <ListView fx:id="LV_KeyWords" layoutX="965.0" layoutY="413.0" onMouseClicked="#handleOnMouseClickedListViewLV_KeyWords" prefHeight="109.0" prefWidth="200.0" />
                         <ScrollPane fx:id="SP_imgScroll" fitToHeight="true" fitToWidth="true" layoutX="14.0" layoutY="89.0" prefHeight="486.0" prefWidth="933.0" vbarPolicy="ALWAYS">
                           <content>
                             <AnchorPane focusTraversable="true" minHeight="0.0" minWidth="0.0" prefHeight="485.0" prefWidth="904.0" />
                           </content>
                         </ScrollPane>
-                        <Label layoutX="965.0" layoutY="380.0" text="Filtrage par mots-clés" />
+                        <Label fx:id="L_filterByKeywords" layoutX="965.0" layoutY="380.0" text="%I18N.filterByKeywords" />
                      </children>
                   </Pane>
                </content>
             </Tab>
-          <Tab disable="true" text="Loupe">
+          <Tab disable="true" text="%I18N.vue">
                <content>
                   <Pane prefHeight="200.0" prefWidth="200.0">
                      <children>
-                        <Button layoutX="201.0" layoutY="510.0" mnemonicParsing="false" text="Button" />
-                        <Button layoutX="707.0" layoutY="510.0" mnemonicParsing="false" text="Button" />
                         <ImageView fx:id="IV_oneImg" fitHeight="360.0" fitWidth="569.0" layoutX="201.0" layoutY="135.0" pickOnBounds="true" preserveRatio="true" />
                         <TextField fx:id="TF_nameImgLoupe" layoutX="970.0" layoutY="132.0" prefHeight="31.0" prefWidth="208.0" />
                         <TextArea fx:id="TA_keyWordLoupe" layoutX="970.0" layoutY="212.0" prefHeight="119.0" prefWidth="207.0" />
-                        <Label layoutX="966.0" layoutY="177.0" text="Mot clés" />
-                        <Label layoutX="969.0" layoutY="94.0" text="Nom de l'image" />
+                        <Label fx:id="L_keywords_bis" layoutX="966.0" layoutY="177.0" text="%I18N.keywords" />
+                        <Label fx:id="L_nameImage_bis" layoutX="969.0" layoutY="94.0" text="%I18N.nameImage" />
+                        <ImageView fitHeight="49.0" fitWidth="50.0" layoutX="406.0" layoutY="495.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@rotate.png" />
+                           </image>
+                        </ImageView>
+                        <ImageView fitHeight="49.0" fitWidth="50.0" layoutX="472.0" layoutY="495.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@rotate2.png" />
+                           </image>
+                        </ImageView>
                      </children>
                   </Pane>
                </content>
             </Tab>
-            <Tab disable="true" text="Diaporama">
+            <Tab disable="true" text="%I18N.slideshow">
               <content>
                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                      <children>
-                        <Label layoutX="970.0" layoutY="96.0" text="Auteur :" />
-                        <Label layoutX="970.0" layoutY="137.0" text="Date :" />
-                        <Label layoutX="970.0" layoutY="177.0" text="Dernière modif :" />
-                        <Label layoutX="970.0" layoutY="211.0" text="Poids Photo :" />
-                        <Label layoutX="970.0" layoutY="286.0" text="Nom du fichier :" />
-                        <Label layoutX="970.0" layoutY="248.0" text="Dimension :" />
-                        <Label layoutX="970.0" layoutY="481.0" text="Focale :" />
-                        <Label layoutX="970.0" layoutY="509.0" text="Diaphragme :" />
-                        <Label layoutX="970.0" layoutY="441.0" text="Vitesse :" />
-                        <Label layoutX="970.0" layoutY="401.0" text="Objectif :" />
-                        <Label layoutX="970.0" layoutY="371.0" text="Modèle :" />
-                        <Label layoutX="970.0" layoutY="337.0" text="Marque :" />
+                        <Label fx:id="L_I18N_author" layoutX="970.0" layoutY="96.0" text="%I18N.author" />
+                        <Label fx:id="L_I18N_date"  layoutX="970.0" layoutY="137.0" text="%I18N.date" />
+                        <Label fx:id="L_I18N_lastUpdate" layoutX="970.0" layoutY="177.0" text="%I18N.lastUpdate" />
+                        <Label fx:id="L_I18N_weight" layoutX="970.0" layoutY="211.0" text="%I18N.weight" />
+                        <Label fx:id="L_I18N_nameFile" layoutX="970.0" layoutY="286.0" text="%I18N.nameFile" />
+                        <Label fx:id="L_I18N_size" layoutX="970.0" layoutY="248.0" text="%I18N.size" />
+                        <Label fx:id="L_I18N_focalLength" layoutX="970.0" layoutY="481.0" text="%I18N.focalLength" />
+                        <Label fx:id="L_I18N_diaphragm" layoutX="970.0" layoutY="509.0" text="%I18N.diaphragm" />
+                        <Label fx:id="L_I18N_speed" layoutX="970.0" layoutY="441.0" text="%I18N.speed" />
+                        <Label fx:id="L_I18N_lens" layoutX="970.0" layoutY="401.0" text="%I18N.lens" />
+                        <Label fx:id="L_I18N_model" layoutX="970.0" layoutY="371.0" text="%I18N.model" />
+                        <Label fx:id="L_I18N_mark" layoutX="970.0" layoutY="337.0" text="%I18N.mark" />
                         <Separator layoutX="929.0" layoutY="331.0" prefWidth="250.0" />
                         <Label layoutX="970.0" layoutY="548.0" text="ISO :" />
                         <Label fx:id="L_dimension" layoutX="1080.0" layoutY="248.0" />
@@ -94,17 +103,17 @@
         </tabs>
       </TabPane>
       <Separator layoutX="951.0" layoutY="39.0" orientation="VERTICAL" prefHeight="720.0" />
-      <ImageView fitHeight="39.0" fitWidth="44.0" layoutX="980.0" layoutY="643.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fitHeight="39.0" fitWidth="44.0" layoutX="980.0" layoutY="643.0" onMouseClicked="#handleOnMouseClickedImgFRAction" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@france.png" />
          </image>
       </ImageView>
-      <ImageView fitHeight="39.0" fitWidth="44.0" layoutX="1042.0" layoutY="643.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fitHeight="39.0" fitWidth="44.0" layoutX="1042.0" layoutY="643.0" onMouseClicked="#handleOnMouseClickedImgJAAction" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@japan.png" />
          </image>
       </ImageView>
-      <ImageView fitHeight="39.0" fitWidth="44.0" layoutX="1101.0" layoutY="643.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fitHeight="39.0" fitWidth="44.0" layoutX="1101.0" layoutY="643.0" onMouseClicked="#handleOnMouseClickedImgUSAction" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@united-states.png" />
          </image>
