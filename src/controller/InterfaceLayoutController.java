@@ -94,7 +94,7 @@ public class InterfaceLayoutController implements Initializable {
     public String KeyWordsNotChanged;
 
     @FXML
-    public void handleOnMouseClickedBtnParcourirAction () throws IOException, ImageReadException {
+    public void handleOnMouseClickedBtnParcourirAction() throws IOException, ImageReadException {
         System.out.print("test");
         System.out.println(TF_chemin.getText());
         DirectoryChooser chooser = new DirectoryChooser();
@@ -103,7 +103,7 @@ public class InterfaceLayoutController implements Initializable {
 //      chooser.setInitialDirectory(new File(System.getProperty("user.home")));
         System.out.print(TF_chemin.getText());
         System.out.print(chooser.getInitialDirectory());
-        if(TF_chemin.getText() == "./src" || TF_chemin.getText() == null) {
+        if (TF_chemin.getText() == "./src" || TF_chemin.getText() == null) {
             chooser.setInitialDirectory(new File("./src"));
         }
         /*else{
@@ -113,7 +113,7 @@ public class InterfaceLayoutController implements Initializable {
 
         File file = chooser.showDialog(new Stage());
         if (file != null) {
-            if(TF_chemin.getText() != file.toString()){
+            if (TF_chemin.getText() != file.toString()) {
                 TF_chemin.setText(file.toString());
                 // tant que il n'y a pas de répétoire selectionné on ne donne pas droit au autre panel
                 TP_root.getTabs().get(1).setDisable(false);
@@ -146,7 +146,7 @@ public class InterfaceLayoutController implements Initializable {
     @FXML
     public void handleOnMouseClickedListViewLV_KeyWords() throws IOException, ImageReadException {
         String KeyWordSeleted;
-        int counter=0;
+        int counter = 0;
         File[] fileTried = new File[files.length];
         KeyWordSeleted = LV_KeyWords.getSelectionModel().getSelectedItem();
         // reinitialiser le filtre
@@ -173,7 +173,7 @@ public class InterfaceLayoutController implements Initializable {
         }
     }
 
-    private File[] rebuilidIndexArray(File [] fileTried){
+    private File[] rebuilidIndexArray(File[] fileTried) {
         int j = 0;
         File[] fileTriedReBuild = new File[files.length];
         for (File aFileTried : fileTried) {
@@ -196,13 +196,12 @@ public class InterfaceLayoutController implements Initializable {
         AjoutImage(files);
     }
 
-    public void AjoutImage(File[] files) throws IOException, ImageReadException  {
+    public void AjoutImage(File[] files) throws IOException, ImageReadException {
         int row = -1; // on part de -1 car l'indice est a 0
         int column = 0;
         ImageView IV_imageView;
-        for(int i = 0; i < files.length; i++)
-        {
-            System.out.println("À l'emplacement " + i +" du tableau nous avons = " + files[i]);
+        for (int i = 0; i < files.length; i++) {
+            System.out.println("À l'emplacement " + i + " du tableau nous avons = " + files[i]);
             //File monFileAbsolue = new File(TF_chemin.getText()+"\\"+monFile.getName());
             if (files[i] != null) {
                 if (!MapKeyWords.containsValue("all")) {
@@ -217,8 +216,8 @@ public class InterfaceLayoutController implements Initializable {
                 System.out.println("la colonne" + column);
 
                 String imageURI = new File(files[i].toString()).toURI().toString();
-                Image I_image   = new Image(imageURI, 400, 400, true, true);
-                IV_imageView    = new ImageView(I_image);
+                Image I_image = new Image(imageURI, 400, 400, true, true);
+                IV_imageView = new ImageView(I_image);
                 IV_imageView.setId("img_" + i);
                 IV_imageView.setOnMouseClicked(new EventHandler<MouseEvent>() {
                     @Override
@@ -234,7 +233,7 @@ public class InterfaceLayoutController implements Initializable {
                     }
                 });
                 // ajout chaque image dans une cellule
-                GP_imgGrid.add(IV_imageView,column,row);
+                GP_imgGrid.add(IV_imageView, column, row);
             }
         }
 
@@ -266,6 +265,7 @@ public class InterfaceLayoutController implements Initializable {
     };
 
     // ici les initalisation concernant le controlleur
+
     /**
      * Initializes the controller class . This method is automatically called
      * after the fxml file has been loaded .
@@ -288,10 +288,10 @@ public class InterfaceLayoutController implements Initializable {
      * @return
      * @throws ImageReadException
      */
-    private static String printTagValue(final JpegImageMetadata jpegMetadata,final TagInfo tagInfo) throws ImageReadException {
+    private static String printTagValue(final JpegImageMetadata jpegMetadata, final TagInfo tagInfo) throws ImageReadException {
         final TiffField field = jpegMetadata.findEXIFValueWithExactMatch(tagInfo);
         String keyWords = "";
-        String keyWordDecode="";
+        String keyWordDecode = "";
         if ((MicrosoftTagConstants.EXIF_TAG_XPKEYWORDS == tagInfo) && (field == null)) {
             if (jpegMetadata.getPhotoshop() != null) {
                 for (int i = 0; i < jpegMetadata.getPhotoshop().getItems().size(); i++) {
@@ -302,11 +302,11 @@ public class InterfaceLayoutController implements Initializable {
                 keyWordDecode = StringHelper.convertFromUTF8(keyWords);
             }
 
-            return  keyWordDecode;
+            return keyWordDecode;
         } else if (field == null) {
             return "N/A";
         } else {
-            return  field.getValue().toString();
+            return field.getValue().toString();
         }
     }
 
@@ -322,23 +322,23 @@ public class InterfaceLayoutController implements Initializable {
         TF_nameImg.setText(monFile.getName());
         TF_nameImgLoupe.setText(monFile.getName());
 
-        File monFileAbsolue = new File(TF_chemin.getText()+"\\"+monFile.getName());
-        IImageMetadata metadata =  Imaging.getMetadata(monFileAbsolue);
+        File monFileAbsolue = new File(TF_chemin.getText() + "\\" + monFile.getName());
+        IImageMetadata metadata = Imaging.getMetadata(monFileAbsolue);
         if (metadata instanceof JpegImageMetadata) {
             JpegImageMetadata jpegMetadata = (JpegImageMetadata) metadata;
 
-            L_auteur.setText(printTagValue(jpegMetadata,TiffTagConstants.TIFF_TAG_ARTIST));
+            L_auteur.setText(printTagValue(jpegMetadata, TiffTagConstants.TIFF_TAG_ARTIST));
             // todo : a faire // date  // poid // dimension // Name
-            L_marque.setText(printTagValue(jpegMetadata,TiffTagConstants.TIFF_TAG_MAKE));
-            L_modele.setText(printTagValue(jpegMetadata,TiffTagConstants.TIFF_TAG_MODEL));
-            L_objectif.setText(printTagValue(jpegMetadata,ExifTagConstants.EXIF_TAG_APERTURE_VALUE));
+            L_marque.setText(printTagValue(jpegMetadata, TiffTagConstants.TIFF_TAG_MAKE));
+            L_modele.setText(printTagValue(jpegMetadata, TiffTagConstants.TIFF_TAG_MODEL));
+            L_objectif.setText(printTagValue(jpegMetadata, ExifTagConstants.EXIF_TAG_APERTURE_VALUE));
             // todo : a faire  // vitesse
-            L_diaphragme.setText(printTagValue(jpegMetadata,ExifTagConstants.EXIF_TAG_LENS));
-            L_focale.setText(printTagValue(jpegMetadata,ExifTagConstants.EXIF_TAG_FOCAL_LENGTH));
-            L_iso.setText(printTagValue(jpegMetadata,ExifTagConstants.EXIF_TAG_ISO));
+            L_diaphragme.setText(printTagValue(jpegMetadata, ExifTagConstants.EXIF_TAG_LENS));
+            L_focale.setText(printTagValue(jpegMetadata, ExifTagConstants.EXIF_TAG_FOCAL_LENGTH));
+            L_iso.setText(printTagValue(jpegMetadata, ExifTagConstants.EXIF_TAG_ISO));
 
-            TA_keyWord.setText(printTagValue(jpegMetadata,MicrosoftTagConstants.EXIF_TAG_XPKEYWORDS));
-            TA_keyWordLoupe.setText(printTagValue(jpegMetadata,MicrosoftTagConstants.EXIF_TAG_XPKEYWORDS));
+            TA_keyWord.setText(printTagValue(jpegMetadata, MicrosoftTagConstants.EXIF_TAG_XPKEYWORDS));
+            TA_keyWordLoupe.setText(printTagValue(jpegMetadata, MicrosoftTagConstants.EXIF_TAG_XPKEYWORDS));
         } else {
             TA_keyWord.setText("");
             TA_keyWordLoupe.setText("");
@@ -347,15 +347,14 @@ public class InterfaceLayoutController implements Initializable {
 
 
     private void AllKeyWords(File monFileAbsolue) throws IOException, ImageReadException {
-        IImageMetadata metadata =  Imaging.getMetadata(monFileAbsolue);
+        IImageMetadata metadata = Imaging.getMetadata(monFileAbsolue);
         if (metadata instanceof JpegImageMetadata) {
             JpegImageMetadata jpegMetadata = (JpegImageMetadata) metadata;
             TiffField field = jpegMetadata.findEXIFValueWithExactMatch(MicrosoftTagConstants.EXIF_TAG_XPKEYWORDS);
 
             if (field == null) {
                 if (jpegMetadata.getPhotoshop() != null) {
-                    for(int i = 0; i < jpegMetadata.getPhotoshop().getItems().size(); i++)
-                    {
+                    for (int i = 0; i < jpegMetadata.getPhotoshop().getItems().size(); i++) {
                         IptcRecord iptcRecord = jpegMetadata.getPhotoshop().photoshopApp13Data.getRecords().get(i);
                         if (iptcRecord.getIptcTypeName() == "Keywords") {
                             if (iptcRecord.getValue() != null) {
@@ -369,10 +368,10 @@ public class InterfaceLayoutController implements Initializable {
 
             } else {
                 // pour les image qui ne vienent pas de photoshop
-                for(int i = 0; i < field.getStringValue().split(";").length; i++) {
+                for (int i = 0; i < field.getStringValue().split(";").length; i++) {
                     String keyWord = field.getStringValue().split(";")[i];
                     String keyWordDecode = StringHelper.convertFromUTF8(keyWord);
-                    MapKeyWords.put(keyWordDecode,keyWordDecode);
+                    MapKeyWords.put(keyWordDecode, keyWordDecode);
                 }
             }
         }

@@ -27,7 +27,7 @@
                         <Label layoutX="959.0" layoutY="106.0" text="Nom de l'image" />
                         <Label layoutX="965.0" layoutY="188.0" text="Mot clés" />
                         <TextField layoutX="962.0" layoutY="535.0" prefHeight="31.0" prefWidth="206.0" text="Recherche" />
-                        <TextArea fx:id="TA_keyWord" layoutX="960.0" layoutY="224.0" prefHeight="119.0" prefWidth="207.0" />
+                        <TextArea fx:id="TA_keyWord" layoutX="960.0" layoutY="224.0" prefHeight="119.0" prefWidth="207.0" onBlur=""/>
                         <TextField fx:id="TF_nameImg" layoutX="960.0" layoutY="144.0" prefHeight="31.0" prefWidth="208.0" />
                         <ComboBox layoutX="570.0" layoutY="20.0" prefWidth="150.0" promptText="Date" />
                         <ComboBox layoutX="725.0" layoutY="20.0" prefHeight="31.0" prefWidth="200.0" promptText="La dernière semaine" />
