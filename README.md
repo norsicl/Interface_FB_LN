@@ -1,6 +1,11 @@
 # Interface_FB_LN
 ###### Par Loris Norsic & Franck Boué
 
+[github] (https://github.com/norsicl/Interface_FB_LN "link to github")
+
+L'application est disponible directement en .jar dans le dossier racine appelé : "Interface_FB_LN.jar"
+La javadoc est disponible
+
 # Introduction
 Nous avons voulu faire une interface se rapprochant le plus de notre prototypage qui nous semblait claire et compréhensible par des néophytes.
 Le principe que nous avons voulu privilégier c'est l'interaction/action contextuelle en d'autre terme amener l'utilisateur à faire que ce qu'il peut faire et interdire les actions qui ne peut pas faire dans ce contexte d'utilisation.
@@ -30,3 +35,5 @@ Tant que l'utilisateur n'a pas choisi son répertoire d'image. les différents o
 - Temps d'adaptation et prise en main de java fx
 - Complexité d'adaptabilité de l'architecture MVC - ( obligé de regrouper la partie modèle dans le Controller dans le délai impartie)
 - La librairie externe "commons-imaging" malgré quelque que exemple il a fallu adapter en fonction de notre besoin sur les mots clés
+# Bug potentiel
+ Si un il y a un espace dans le nom du chemin des images les mots clés ne sont pas pris en compte (non réglé)

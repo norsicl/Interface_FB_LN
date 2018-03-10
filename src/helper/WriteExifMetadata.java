@@ -19,12 +19,13 @@ import org.apache.commons.imaging.formats.tiff.write.TiffOutputDirectory;
 import org.apache.commons.imaging.formats.tiff.write.TiffOutputSet;
 
 /**
- * @description WriteExifMetadata permet de comme son nom l'indique d'aider sur l'écriture de métadata d'une image
+ * WriteExifMetadata permet de comme son nom l'indique d'aider sur l'écriture de métadata d'une image
  */
 public class WriteExifMetadata {
 
     /**
-     * @method WriteExif permet d'écrire de (type Exif) des mots clés dans l'image
+     * Permet d'écrire de (type Exif) des mots clés dans l'image
+     * @method WriteExif
      * @param imageFile
      * @param KeyWordsImage
      * @throws ImageWriteException
@@ -40,7 +41,8 @@ public class WriteExifMetadata {
 
 
     /**
-     * @method changeExifMetadata  ajouter / mettre à jour les métadonnées EXIF ​​dans un fichier JPEG.
+     * Ajouter / mettre à jour les métadonnées EXIF ​​dans un fichier JPEG.
+     * @method changeExifMetadata
      * @param jpegImageFile A source image file.
      * @param dst The output file.
      * @param KeyWordsImage String liste mot clé de l'image

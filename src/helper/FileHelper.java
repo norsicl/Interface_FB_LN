@@ -1,13 +1,13 @@
 package helper;
 
 /**
- * @description  FileHelper permet de comme son nom l'indique d'aider sur l'object File
+ *  FileHelper permet de comme son nom l'indique d'aider sur l'object File
  */
 public class FileHelper {
 
     /**
+     * permet de retourner le nom de l'image avec son extension
      * @method getFilenameWithSuffix
-     * @description permet de retourner le nom de l'image avec son extension
      * @param original de type String
      * @param suffix de type String
      * @return String

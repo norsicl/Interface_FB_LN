@@ -1,7 +1,7 @@
 package helper;
 
 /**
- * @description enumLangage permet de choisir plus facilement la langue pour la traduction
+ * enumLangage permet de choisir plus facilement la langue pour la traduction
  * todo: plus du tout utile car une classe équivalente existe en JAVA par défaut
  */
 public enum enumLangage {
@@ -11,16 +11,17 @@ public enum enumLangage {
     EN_UK("en", "UK");
 
     /**
-     * @variable language de type String
+     * language de type String
      */
     private String language;
     /**
-     * @variable country de type String
+     * country de type String
      */
     private String country;
 
     /**
-     * @method enumLangage : Constructeur
+     * Constructeur
+     * @method enumLangage
      * @param language de type String
      * @param country de type String
      */
@@ -30,7 +31,8 @@ public enum enumLangage {
     }
 
     /**
-     * @method getLanguage retourne la langue
+     * Retourne la langue
+     * @method getLanguage
      * @return String
      */
     public String getLanguage(){
@@ -38,7 +40,8 @@ public enum enumLangage {
     }
 
     /**
-     * @method getCountry retourne le pays
+     * Retourne le pays
+     * @method getCountry
      * @return String
      */
     public String getCountry(){
@@ -54,7 +57,8 @@ public enum enumLangage {
     }
 
     /**
-     * @method getLanguageByCountry permet de récupérer le pays par rapport au language
+     * Permet de récupérer le pays par rapport au language
+     * @method getLanguageByCountry
      * @param Country de type String
      * @return String
      */

@@ -8,13 +8,13 @@ import java.util.ResourceBundle;
 
 
 /**
- * @description  LangageHelper permet de comme son nom l'indique d'aider sur l'object ResourceBundle
+ *  LangageHelper permet de comme son nom l'indique d'aider sur l'object ResourceBundle
  */
 public class LangageHelper {
 
     /**
+     * Permet de charger la langue et le pays pour la traduction
      * @method loaderTraduction
-     * @description permet de charger la langue et le pays pour la traduction
      * @param language de type String
      * @param country de type String
      * @return ResourceBundle

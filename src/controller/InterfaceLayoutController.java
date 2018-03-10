@@ -31,7 +31,7 @@ import org.apache.commons.imaging.formats.tiff.constants.TiffTagConstants;
 import org.apache.commons.imaging.formats.tiff.taginfos.TagInfo;
 
 /**
- * @description Controller de la fenetre de l'application
+ * Controller de la fenetre de l'application
  */
 public class InterfaceLayoutController implements Initializable {
 
@@ -125,35 +125,35 @@ public class InterfaceLayoutController implements Initializable {
     private ListView<String> LV_KeyWords;
 
     /**
-     * @variable  Map<String, String> MapKeyWords : list de mots clés contenue dans toutes les images
+     * Map<String, String> MapKeyWords : list de mots clés contenue dans toutes les images
      */
     private Map<String, String> MapKeyWords = new HashMap<>();
     /**
-     * @variable  GridPane GP_imgGrid : element GridPane créer dynamiquement
+     * GridPane GP_imgGrid : element GridPane créer dynamiquement
      */
     private GridPane GP_imgGrid;
     /**
-     * @variable  File[] files : tableau de fichier d'images
+     * File[] files : tableau de fichier d'images
      */
     private File[] files;
 
     /**
-     * @variable String KeyWordsNotChanged : chaine de mots clés contenue dans l'image d'origine
+     * String KeyWordsNotChanged : chaine de mots clés contenue dans l'image d'origine
      */
     private String KeyWordsNotChanged;
 
     /**
-     * @variable File monFile : fichier d'image
+     * File monFile : fichier d'image
      */
     private File monFile;
     /**
-     * @variable File monFileAbsolue : fichier du chemin absolue de l'image selectionné
+     *  File monFileAbsolue : fichier du chemin absolue de l'image selectionné
      */
     private File monFileAbsolue;
 
     /**
+     * Evenement click sur le bouton parcourir pour récupérer la liste d'image
      * @method handleOnMouseClickedBtnParcourirAction
-     * @description Evenement click sur le bouton parcourir pour récupérer la liste d'image
      * @throws IOException
      * @throws ImageReadException
      */
@@ -162,12 +162,12 @@ public class InterfaceLayoutController implements Initializable {
         DirectoryChooser chooser = new DirectoryChooser();
         chooser.setInitialDirectory(new File("./src"));
         chooser.setTitle("Open File");
-//      chooser.setInitialDirectory(new File(System.getProperty("user.home")));
+      chooser.setInitialDirectory(new File(System.getProperty("user.home")));
 //        System.out.print(TF_chemin.getText());
 //        System.out.print(chooser.getInitialDirectory());
-        if(TF_chemin.getText().equals("./src") || TF_chemin.getText() == null) {
-            chooser.setInitialDirectory(new File("./src"));
-        }
+//        if(TF_chemin.getText().equals("./src") || TF_chemin.getText() == null) {
+//            chooser.setInitialDirectory(new File("./src"));
+//        }
         /*else{
             System.out.println(chemin.getText());
             //chooser.setInitialDirectory(new File((chemin.getText())));
@@ -194,8 +194,8 @@ public class InterfaceLayoutController implements Initializable {
     }
 
     /**
+     * Ecrire un mot clé dans l'image selectionné
      * @method WriteKeyWord
-     * @description Ecrire un mot clé dans l'image selectionné
      * @throws ImageWriteException
      * @throws ImageReadException
      * @throws IOException
@@ -207,8 +207,8 @@ public class InterfaceLayoutController implements Initializable {
     }
 
     /**
+     * Evenement click un mot clé pour filter la liste des images affichés
      * @method handleOnMouseClickedListViewLV_KeyWords
-     * @description Evenement click un mot clé pour filter la liste des images affichés
      * @throws IOException
      * @throws ImageReadException
      */
@@ -243,8 +243,8 @@ public class InterfaceLayoutController implements Initializable {
     }
 
     /**
+     * Reconstruction du tableau (réinitialisation de l'index)
      * @method rebuilidIndexArray
-     * @description Reconstruction du tableau (réinitialisation de l'index)
      * @param fileTried
      * @return File[] tableau de fichier d'image
      */
@@ -260,8 +260,8 @@ public class InterfaceLayoutController implements Initializable {
     }
 
     /**
+     * Construction de element gridPane contenant les images
      * @method BuildGridImages
-     * @description Construction de element gridPane contenant les images
      * @param path de type String : chemin du dossier contenant les images
      * @throws IOException
      * @throws ImageReadException
@@ -278,8 +278,8 @@ public class InterfaceLayoutController implements Initializable {
     }
 
     /**
+     * Construction de element gridPane contenant les images
      * @method AjoutImage
-     * @description Construction de element gridPane contenant les images
      * @param files de type File[] tableau de fichier d'image
      * @throws IOException
      * @throws ImageReadException
@@ -331,8 +331,8 @@ public class InterfaceLayoutController implements Initializable {
     }
 
     /**
+     * pour récupérer que les images d'extension .jpg
      * @method jpgFileFilter
-     * @description pour récupérer que les images d'extension .jpg
      * @param dir
      * @param name
      */
@@ -340,10 +340,8 @@ public class InterfaceLayoutController implements Initializable {
 
 
     /**
-     * Initializes the controller class . This method is automatically called
-     * after the fxml file has been loaded .
+     * Initialise la classe de contrôleur Cette méthode est appelée automatiquement après le chargement du fichier fxml.
      * @method initialize
-     * @description ici les initalisation concernant le controlleur
      * @param location de type URL
      * @param resources de type ResourceBundle
      */
@@ -358,8 +356,8 @@ public class InterfaceLayoutController implements Initializable {
     }
 
     /**
+     * Affiche le métadata de/le tag de l'image en fonction du tagInfo demandé
      * @method printTagValue
-     * @description Affiche le métadata de/le tag de l'image en fonction du tagInfo demandé
      * @param jpegMetadata de type JpegImageMetadata
      * @param tagInfo de type TagInfo : l'info voulu dans l'image
      * @return String tag de l'image demandé
@@ -388,8 +386,8 @@ public class InterfaceLayoutController implements Initializable {
 
 
     /**
+     * Selectionne une image dans le grid pane & affiche les différentes informations dans l'application
      * @method seletedImg
-     * @description selectionne une image dans le grid pane & affiche les différentes informations dans l'application
      * @param nodeImage de type ImageView
      * @throws IOException
      * @throws ImageReadException
@@ -462,8 +460,8 @@ public class InterfaceLayoutController implements Initializable {
 
 
     /**
+     * Création de la map contenant la liste de mots clés
      * @method AllKeyWords
-     * @description création de la map contenant la liste de mots clés
      * @param monFileAbsolue de type File
      * @throws IOException
      * @throws ImageReadException
@@ -500,8 +498,8 @@ public class InterfaceLayoutController implements Initializable {
     }
 
     /**
+     * Evenement click pour la selection de l'image
      * @method handOnMouseClickedVIImageAction
-     * @description evenement click pour la selection de l'image
      * @param event de type MouseEvent permetant de récupérer le node clické et récupérer l'image selectionné
      */
     private void handOnMouseClickedVIImageAction(MouseEvent event) {
@@ -514,8 +512,8 @@ public class InterfaceLayoutController implements Initializable {
     }
 
     /**
+     * Evenement click pour la traduction de l'application (Américain)
      * @method handleOnMouseClickedImgUSAction
-     * @description evenement click pour la traduction de l'application (Américain)
      */
     public void handleOnMouseClickedImgUSAction() {
         ResourceBundle rb = LangageHelper.loaderTraduction(enumLangage.EN_US.getLanguage(),enumLangage.EN_US.getCountry());
@@ -523,8 +521,8 @@ public class InterfaceLayoutController implements Initializable {
     }
 
     /**
+     * Evenement click pour la traduction de l'application (Français)
      * @method handleOnMouseClickedImgUSAction
-     * @description evenement click pour la traduction de l'application (Français)
      */
     public void handleOnMouseClickedImgFRAction() {
         ResourceBundle rb = LangageHelper.loaderTraduction(Locale.FRANCE.getLanguage(),Locale.FRANCE.getCountry());
@@ -533,7 +531,7 @@ public class InterfaceLayoutController implements Initializable {
 
     /**
      * @method handleOnMouseClickedImgUSAction
-     * @description evenement click pour la traduction de l'application (chinois)
+     * Evenement click pour la traduction de l'application (chinois)
      */
     public void handleOnMouseClickedImgJAAction() {
         ResourceBundle rb = LangageHelper.loaderTraduction(Locale.SIMPLIFIED_CHINESE.getLanguage(),Locale.SIMPLIFIED_CHINESE.getCountry());
@@ -541,8 +539,8 @@ public class InterfaceLayoutController implements Initializable {
     }
 
     /**
+     * Permet de modifier le text en fonction de la langue voulue de tout les Text contenue dans l'application
      * @method traductionReloader
-     * @description permet de modifier le text en fonction de la langue voulue de tout les Text contenue dans l'application
      * @param rb de type ResourceBundle
      */
     private void traductionReloader(ResourceBundle rb) {
